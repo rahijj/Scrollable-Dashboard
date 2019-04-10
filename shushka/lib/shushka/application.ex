@@ -11,6 +11,7 @@ defmodule Shushka.Application do
       # Starts a worker by calling: Shushka.Worker.start_link(arg)
       # {Shushka.Worker, arg}
 	  { Registry, keys: :duplicate, name: Shushka.ConnectionRegistry },
+	  { Registry, keys: :single, name: Shushka.SyncrRegistry },
 	  {
 		  Postgrex,
 		  	name: Shushka.DB,
