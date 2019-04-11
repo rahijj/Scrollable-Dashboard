@@ -33,7 +33,7 @@ defmodule Shushka.Store.Syncr do
 	def handle_call({:load, id}, _from, state) do
 		case Postgrex.query(
 			Shushka.DB,
-			"SELECT db from backup where id=$1", [id]) do
+			"SELECT sync_state from sync_store where id=$1", [id]) do
 				{:ok, %Postgrex.Result{num_rows: 0}} -> {:reply, {%{}, %{}}, state}
 				{:ok, resp} ->
 					[[db]] = resp.rows
@@ -84,7 +84,7 @@ defmodule Shushka.Store.Syncr do
 
 		case Postgrex.query(
 			Shushka.DB,
-			"INSERT INTO backup (id, db) VALUES ($1, $2) ON CONFLICT (id) DO UPDATE SET db=$2",
+			"INSERT INTO sync_store (id, sync_state) VALUES ($1, $2) ON CONFLICT (id) DO UPDATE SET sync_state=$2",
 			[id, db]) do
 				{:ok, resp} -> {:noreply, state}
 				{:error, err} -> 

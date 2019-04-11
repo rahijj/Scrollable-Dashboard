@@ -11,7 +11,7 @@ defmodule Shushka.Application do
       # Starts a worker by calling: Shushka.Worker.start_link(arg)
       # {Shushka.Worker, arg}
 	  { Registry, keys: :duplicate, name: Shushka.ConnectionRegistry },
-	  { Registry, keys: :single, name: Shushka.SyncrRegistry },
+	  { Registry, keys: :unique, name: Shushka.SyncrRegistry },
 	  {
 		  Postgrex,
 		  	name: Shushka.DB,
@@ -19,7 +19,7 @@ defmodule Shushka.Application do
 			 username: "postgres",
 			 password: System.get_env("POSTGRES_PASS") || "postgres",
 			 database: "postgres",
-			 port: System.get_env("POSTGRES_PORT") || "5432",
+			 port: System.get_env("POSTGRES_PORT") || "5433",
 			 types: Shushka.PostgrexTypes
 	  },
 	  Shushka.Server
