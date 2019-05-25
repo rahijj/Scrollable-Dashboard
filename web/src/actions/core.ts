@@ -272,12 +272,11 @@ export interface LoginSucceed {
 	id: string,
 	token: string,
 	sync_state: RootReducerState['sync_state'],
-	number: string
 }
-export const createLoginSucceed = (id : string, token : string, sync_state: RootReducerState['sync_state'], number : string) : LoginSucceed => ({ 
+
+export const createLoginSucceed = (id : string, token : string, sync_state: RootReducerState['sync_state']) : LoginSucceed => ({ 
 	type: LOGIN_SUCCEED,
 	id,
 	token,
-	sync_state,
-	number
+	sync_state
 })
