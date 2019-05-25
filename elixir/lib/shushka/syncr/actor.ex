@@ -246,6 +246,13 @@ defmodule Shushka.Syncr do
 		}
 	end
 
+	defp rpc_succeed(new_writes) do
+		%{
+			type: "RPC_SUCCEED",
+			new_writes: new_writes
+		}
+	end
+
 	defp via(id) do
 		{:via, Registry, {Sarkar.SyncrRegistry, id}}
 	end

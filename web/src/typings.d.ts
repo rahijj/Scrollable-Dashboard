@@ -1,8 +1,9 @@
+interface SyncState {
+
+}
+
 interface RootReducerState {
-	sync_state: {
-
-	}
-
+	sync_state: SyncState 
 	auth: {
 		id?: string
 		token?: string
