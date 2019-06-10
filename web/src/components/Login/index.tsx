@@ -3,7 +3,7 @@ import { connect } from 'react-redux'
 import { withRouter, RouteComponentProps } from 'react-router-dom'
 import { createLogin } from '../../actions'
 
-import former from '../../utils/former'
+import former from 'former'
 
 import './style.css'
 
