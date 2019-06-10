@@ -3,19 +3,14 @@ import { Route, Redirect, RouteProps } from 'react-router-dom'
 import { connect } from 'react-redux'
 
 interface StateProps {
-	auth: RootBankState['auth']
-	number_exists: boolean
+	auth: RootReducerState['auth']
 }
 
 type propTypes = StateProps & RouteProps
 
-const AuthedRoute = ({ component, auth: { id, token, number }, number_exists , ...rest } : propTypes) => {
+const AuthedRoute = ({ component, auth: { id, token }, ...rest } : propTypes) => {
 
 	if(token && id) {
-
-		if(!number_exists) {
-			return <Redirect to="/verify-number" />
-		}
 
 		return <Route component={component} {...rest} />
 	}
@@ -23,7 +18,6 @@ const AuthedRoute = ({ component, auth: { id, token, number }, number_exists , .
 	return <Redirect to="/login" />
 }
 
-export default connect<StateProps>((state : RootBankState) => ({
-	auth: state.auth,
-	number_exists: state.sync_state.numbers[state.auth.number] !== undefined
+export default connect((state : RootReducerState) => ({
+	auth: state.auth
 }))(AuthedRoute);
