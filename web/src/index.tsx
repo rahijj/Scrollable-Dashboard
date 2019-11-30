@@ -19,8 +19,10 @@ const host = window.api_url || debug_url;
 
 const initial_state = loadDB()
 const syncr = new Syncr(host, msg => store.dispatch(msg))
-//@ts-ignore
-const store : Store<RootReducerState> = createStore(reducer, initial_state, applyMiddleware(thunkMiddleware.withExtraArgument(syncr) as ThunkMiddleware<RootReducerState, AnyAction, Syncr>))
+const store: Store<RootReducerState> = createStore(
+	reducer,
+	initial_state,
+	applyMiddleware(thunkMiddleware.withExtraArgument(syncr) as ThunkMiddleware<RootReducerState, AnyAction, Syncr>))
 
 const saveBounce = debounce(() => {
 	const state = store.getState();
@@ -28,9 +30,9 @@ const saveBounce = debounce(() => {
 }, 500);
 
 store.subscribe(saveBounce as () => void)
-ReactDOM.render(<Routes store={store}/>, document.getElementById('root'));
+ReactDOM.render(<Routes store={store} />, document.getElementById('root'));
 
 // If you want your app to work offline and load faster, you can change
 // unregister() to register() below. Note this comes with some pitfalls.
 // Learn more about service workers: https://bit.ly/CRA-PWA
-serviceWorker.unregister();
+serviceWorker.register();
