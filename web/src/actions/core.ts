@@ -1,4 +1,4 @@
-import Syncr from 'syncr';
+import Syncr from '@cerp/syncr';
 
 type GetState = () => RootReducerState
 type Dispatch = (a: any) => any
@@ -168,7 +168,7 @@ export const createDeletes = (paths: Delete[]) => (dispatch: Dispatch, getState:
 
 }
 
-// this is only produced by the server. 
+// this is only produced by the server.
 // it will tell us it hsa confirmed sync up to { date: timestamp }
 export const CONFIRM_SYNC = "CONFIRM_SYNC"
 export const CONFIRM_SYNC_DIFF = "CONFIRM_SYNC_DIFF"

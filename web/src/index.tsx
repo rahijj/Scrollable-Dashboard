@@ -6,7 +6,7 @@ import { applyMiddleware, AnyAction, createStore, Store } from 'redux';
 import thunkMiddleware, { ThunkMiddleware } from 'redux-thunk'
 
 import Routes from './routes'
-import Syncr from 'syncr'
+import Syncr from '@cerp/syncr'
 import reducer from './reducers'
 
 import { loadDB, saveDB } from './utils/localStorage'

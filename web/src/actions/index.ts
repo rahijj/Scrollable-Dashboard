@@ -1,4 +1,4 @@
-import Syncr from 'syncr'
+import Syncr from '@cerp/syncr'
 import { createLoginSucceed } from './core';
 
 type Dispatch = (action: any) => any

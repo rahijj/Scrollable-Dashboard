@@ -3,13 +3,13 @@ import { connect } from 'react-redux'
 import { withRouter, RouteComponentProps } from 'react-router-dom'
 import { createLogin } from '../../actions'
 
-import former from 'former'
+import former from '@cerp/former'
 
 import './style.css'
 
 interface propTypes {
 	connected: boolean,
-	login: (id : string, password : string, number : string) => void
+	login: (id: string, password: string, number: string) => void
 	auth: RootReducerState['auth'],
 }
 
@@ -23,7 +23,7 @@ class Login extends Component<propTypes & RouteComponentProps, state>{
 
 	private former: former
 
-	constructor(props : any) {
+	constructor(props: any) {
 		super(props);
 
 		this.state = {
@@ -39,24 +39,24 @@ class Login extends Component<propTypes & RouteComponentProps, state>{
 		this.props.login(this.state.username, this.state.password, this.state.number)
 	}
 
-	componentWillReceiveProps(nextProps : propTypes) {
+	componentWillReceiveProps(nextProps: propTypes) {
 
 		console.log(nextProps)
 		console.log("NEXT PROPS")
-		if(nextProps.auth.token && nextProps.auth.token !== this.props.auth.token) {
+		if (nextProps.auth.token && nextProps.auth.token !== this.props.auth.token) {
 			this.props.history.push('/');
 		}
 	}
 
 	render() {
 
-		if(!this.props.connected) {
+		if (!this.props.connected) {
 			return <div>Connecting...</div>
 		}
 
 		return <div className="login page">
 
-			<div className="cover" style={{ }}>
+			<div className="cover" style={{}}>
 				<div className="title" style={{ fontSize: "3rem" }}>Welcome to IlmExchange</div>
 				<div className="divider"></div>
 				<div className="form">
@@ -79,9 +79,9 @@ class Login extends Component<propTypes & RouteComponentProps, state>{
 /*
 */
 
-export default connect((state : RootReducerState) => ({
+export default connect((state: RootReducerState) => ({
 	connected: state.connected,
 	auth: state.auth
-}), (dispatch : any) => ({
-	login: (username : string, password : string, number : string) => dispatch(createLogin(username, password, number))
+}), (dispatch: any) => ({
+	login: (username: string, password: string, number: string) => dispatch(createLogin(username, password, number))
 }))(withRouter(Login))
