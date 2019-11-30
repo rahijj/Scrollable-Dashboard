@@ -1,10 +1,12 @@
-defmodule Shushka.ActionHandler do
+defmodule Labs.ActionHandler do
 
 	def handle_action(action, state) do
 
+		IO.puts "Action handler not implemented"
 		IO.inspect action
 
-		# TODO: copy succeed / fail functions from other projects
+		{:reply, fail("action handler not implemented"), state}
+
 	end
 
 	defp fail(message) do

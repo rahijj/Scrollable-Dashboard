@@ -1,4 +1,4 @@
-defmodule Shushka.Syncr do
+defmodule Labs.Syncr do
 	use GenServer
 
 	def init(args) do
@@ -8,11 +8,11 @@ defmodule Shushka.Syncr do
 	def start_link({id}) do
 		IO.puts "initting actor #{id}"
 
-		{db, writes} = Shushka.Store.Syncr.load(id)
+		{db, writes} = Labs.Store.Syncr.load(id)
 		GenServer.start_link(
 			__MODULE__,
 			{id, writes, db},
-			name: {:via, Registry, {Shushka.SyncrRegistry, id}})
+			name: {:via, Registry, {Labs.SyncrRegistry, id}})
 	end
 
 	# API 

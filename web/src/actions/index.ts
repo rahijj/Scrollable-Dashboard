@@ -1,4 +1,4 @@
-import Syncr from '../syncr'
+import Syncr from 'syncr'
 import { createLoginSucceed } from './core';
 
 type Dispatch = (action: any) => any
@@ -18,12 +18,12 @@ export const createLogin = (username: string, password: string, number: string) 
 			password
 		}
 	})
-	.then((res: {token: string, sync_state: SyncState }) => {
-		dispatch(createLoginSucceed(username, res.token, res.sync_state ))
-	})
-	.catch(res => {
-		console.error(res)
-		alert("login failed" + JSON.stringify(res))
-	})
+		.then((res: { token: string, sync_state: SyncState }) => {
+			dispatch(createLoginSucceed(username, res.token, res.sync_state))
+		})
+		.catch(res => {
+			console.error(res)
+			alert("login failed" + JSON.stringify(res))
+		})
 
 }

@@ -1,4 +1,4 @@
-defmodule Shushka.Websocket do
+defmodule Labs.Websocket do
 	@behaviour :cowboy_websocket
 
 	def init(req, state) do
@@ -20,7 +20,7 @@ defmodule Shushka.Websocket do
 	end
 
 	def handle_json(%{"key" => message_key, "payload" => %{"type" => type, "payload" => payload} = action}, state) do
-		case Shushka.Actionhandler.handle_action(action, state) do
+		case Labs.ActionHandler.handle_action(action, state) do
 			{:reply, %{type: resp_type, payload: msg}, new_state} -> {:reply, {:text, Poison.encode!(%{key: message_key, type: resp_type, payload: msg})}, new_state}
 			{:reply, %{type: resp_type}, new_state} -> {:reply, {:text, Poison.encode!(%{key: message_key, type: resp_type, payload: %{}})}, new_state}
 			other ->

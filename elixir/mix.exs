@@ -1,9 +1,9 @@
-defmodule Shushka.MixProject do
+defmodule Labs.MixProject do
   use Mix.Project
 
   def project do
     [
-      app: :shushka,
+      app: :labs,
       version: "0.1.0",
       elixir: "~> 1.8",
       start_permanent: Mix.env() == :prod,
@@ -15,7 +15,7 @@ defmodule Shushka.MixProject do
   def application do
     [
       extra_applications: [:logger],
-      mod: {Shushka.Application, []}
+      mod: {Labs.Application, []}
     ]
   end
 
@@ -23,6 +23,9 @@ defmodule Shushka.MixProject do
   defp deps do
     [
 		{:poison, "~> 3.0"},
+		{:tesla, "~> 1.2.0"},
+		{:google_api_storage, "~> 0.12.0"},
+		{:goth, "~> 1.1.0"},
 		{:csv, "~> 2.3"},
 		{:distillery, "~> 2.0"},
 		{:cowboy, "~> 2.2", override: true, manager: :rebar3},

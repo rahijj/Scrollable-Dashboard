@@ -11,6 +11,8 @@ const rootReducer: Reducer<RootReducerState, AnyAction> = (state: RootReducerSta
 		return loadDB()
 	}
 
+	console.log(action.type)
+
 	switch (action.type) {
 
 		case ON_CONNECT:

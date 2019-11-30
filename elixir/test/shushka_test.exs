@@ -1,8 +1,8 @@
-defmodule ShushkaTest do
+defmodule LabsTest do
   use ExUnit.Case
-  doctest Shushka
+  doctest Labs
 
   test "greets the world" do
-    assert Shushka.hello() == :world
+    assert Labs.hello() == :world
   end
 end

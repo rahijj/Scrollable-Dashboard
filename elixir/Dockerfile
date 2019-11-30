@@ -19,7 +19,7 @@ RUN mix deps.compile
 ADD . .
 
 RUN mix release
-RUN chmod +x "_build/prod/rel/shushka/bin/shushka"
+RUN chmod +x "_build/prod/rel/labs/bin/labs"
 
 EXPOSE 8080
-CMD _build/prod/rel/shushka/bin/shushka foreground
+CMD _build/prod/rel/labs/bin/labs foreground

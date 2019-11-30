@@ -1,4 +1,4 @@
-defmodule Shushka.Server do
+defmodule Labs.Server do
 	
 	def start_link(_opts) do
 
@@ -17,8 +17,8 @@ defmodule Shushka.Server do
 	def config do
 		:cowboy_router.compile([
 			{:_, [
-				{"/ws", Shushka.Websocket, []},
-				{"/", Shushka.Server.OK, []}
+				{"/ws", Labs.Websocket, []},
+				{"/", Labs.Server.OK, []}
 			]}
 		])
 	end
@@ -29,7 +29,7 @@ defmodule Shushka.Server do
 	end
 end
 
-defmodule Shushka.Server.OK do
+defmodule Labs.Server.OK do
 	def init(req, state) do
 		req = :cowboy_req.reply(200, req)
 		{:ok, req, state}

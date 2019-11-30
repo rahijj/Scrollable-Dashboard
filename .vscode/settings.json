@@ -29,5 +29,9 @@
 			"language": "typescriptreact",
 			"autoFix": true
 		}
-	]
+	],
+	"editor.insertSpaces": false,
+	"editor.tabSize": 4,
+	"files.trimFinalNewlines": true,
+	"files.trimTrailingWhitespace": true
 }
