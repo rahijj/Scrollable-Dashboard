@@ -1,4 +1,4 @@
-import Syncr from '@cerp/syncr';
+import Syncr from '@cerp/syncr'
 
 type GetState = () => RootReducerState
 type Dispatch = (a: any) => any

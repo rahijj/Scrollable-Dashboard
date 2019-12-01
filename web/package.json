@@ -4,8 +4,9 @@
 	"private": true,
 	"dependencies": {
 		"@cerp/former": "^1.0.1",
-		"@cerp/syncr": "^1.0.0",
+		"@cerp/syncr": "^1.1.0",
 		"@ironbay/dynamic": "^1.0.10",
+		"idb": "^4.0.5",
 		"moment": "^2.24.0",
 		"react": "^16.12.0",
 		"react-dom": "^16.12.0",

@@ -22,11 +22,12 @@ const host = window.api_url || debug_url;
 
 const initial_state = loadDB()
 
-const syncr = new Syncr(`ws://${host}/ws`, msg => store.dispatch(msg))
+const syncr = new Syncr(`ws://${host}/ws`)
 
 // @ts-ignore
 syncr.on('connect', () => store.dispatch(connected()))
 syncr.on('disconnect', () => store.dispatch(disconnected()))
+syncr.on('message', (msg: AnyAction) => store.dispatch(msg))
 
 
 const store: Store<RootReducerState> = createStore(
