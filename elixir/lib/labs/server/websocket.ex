@@ -32,7 +32,7 @@ defmodule Labs.Websocket do
 
 	def handle_json(json, state) do
 		IO.puts "got an action in unexpected format"
-		IO.inspect json 
+		IO.inspect json
 
 		# should be a reply
 		{:ok, state}

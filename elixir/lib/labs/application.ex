@@ -23,7 +23,11 @@ defmodule Labs.Application do
 			 types: Labs.PostgrexTypes,
 			 pool_size: 10
 	  },
-	  Labs.Server
+		Plug.Adapters.Cowboy.child_spec(
+				scheme: :http,
+				plug: Labs.Router,
+				dispatch: dispatch,
+				port: 8080)
 	]
 
 	# See https://hexdocs.pm/elixir/Supervisor.html
@@ -31,4 +35,16 @@ defmodule Labs.Application do
 	opts = [strategy: :one_for_one, name: Labs.Supervisor]
 	Supervisor.start_link(children, opts)
   end
+
+  defp dispatch do
+	[
+		{:_, [
+			{"/ws", Labs.Websocket, []},
+			{:_, Plug.Cowboy.Handler, {EdMarkaz.Router, []}}
+			# {"/", EdMarkaz.Server.OK, []},
+			# {"/analytics/:type", EdMarkaz.Server.Analytics, []},
+			# {"/masking", EdMarkaz.Server.Masking, []}
+		]}
+	]
+end
 end

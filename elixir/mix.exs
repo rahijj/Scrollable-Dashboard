@@ -29,6 +29,7 @@ defmodule Labs.MixProject do
 		{:csv, "~> 2.3"},
 		{:distillery, "~> 2.0"},
 		{:cowboy, "~> 2.2", override: true, manager: :rebar3},
+		{:plug_cowboy, "~> 2.0" },
 		{:uuid, "~> 1.1"},
 		{:postgrex, "~>0.13.3"},
 		{:dynamic, github: "ironbay/dynamic", sparse: "elixir"}
