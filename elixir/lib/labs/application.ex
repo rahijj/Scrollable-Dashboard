@@ -41,9 +41,6 @@ defmodule Labs.Application do
 		{:_, [
 			{"/ws", Labs.Websocket, []},
 			{:_, Plug.Cowboy.Handler, {Labs.Router , []}}
-			# {"/", EdMarkaz.Server.OK, []},
-			# {"/analytics/:type", EdMarkaz.Server.Analytics, []},
-			# {"/masking", EdMarkaz.Server.Masking, []}
 		]}
 	]
 end
