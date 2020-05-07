@@ -14,12 +14,17 @@ with open("pak_data.json") as f:
 rows = []
 for dist, data in pak_data.items():
     for indicator, val in data.items():
-        print(dist + ", " + indicator + ", " + str(val))
+        # print(dist + ", " + indicator + ", " + str(val))
         rows.append([dist, indicator, val])
         cur.execute(
             """INSERT INTO pak_data (district, indicator, value)
-            VALUES (%s, %s, %s)""", (dist, indicator, val))
+            VALUES (%s, %s, %s);""", (dist, indicator, val))
 
+# very important!
+conn.commit()
 
-# update summary tables
+# can then update derived tables...
 # ex group by district, do some stuff
+
+cur.close()
+conn.close()
