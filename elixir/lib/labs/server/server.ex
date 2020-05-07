@@ -6,6 +6,8 @@ defmodule Labs.Router do
 
 	# forward "/analytics", to: EdMarkaz.Server.Analytics
 
+	# model 1 - jj
+
 	match "/test" do
 		fname = "pakistan_indicators.json"
 		json = case File.exists?(Application.app_dir(:labs, "priv/#{fname}")) do
@@ -21,7 +23,6 @@ defmodule Labs.Router do
 	match "/stream-response" do
 
 		conn = conn
-		|> put_resp_header("content-length", "")
 		|> put_resp_header("content-type", "application/json")
 		|> send_chunked(200)
 
