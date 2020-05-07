@@ -21,6 +21,7 @@ defmodule Labs.Application do
 			 database: "postgres",
 			 port: System.get_env("POSTGRES_PORT") || "5432",
 			 types: Labs.PostgrexTypes,
+			 pool: DBConnection.Poolboy,
 			 pool_size: 10
 	  },
 		Plug.Adapters.Cowboy.child_spec(
