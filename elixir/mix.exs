@@ -26,6 +26,7 @@ defmodule Labs.MixProject do
 		{:tesla, "~> 1.2.0"},
 		{:google_api_storage, "~> 0.12.0"},
 		{:goth, "~> 1.1.0"},
+		{:poolboy, "~> 1.5.2"},
 		{:csv, "~> 2.3"},
 		{:distillery, "~> 2.0"},
 		{:cowboy, "~> 2.2", override: true, manager: :rebar3},
