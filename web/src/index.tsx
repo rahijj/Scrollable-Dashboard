@@ -4,21 +4,18 @@ import './index.css';
 import * as serviceWorker from './serviceWorker';
 import { applyMiddleware, AnyAction, createStore, Store } from 'redux';
 import thunkMiddleware, { ThunkMiddleware } from 'redux-thunk'
-
-import Routes from './routes'
 import Syncr from '@cerp/syncr'
-import reducer from './reducers'
 
-import { loadDB, saveDB } from './utils/localStorage'
-import debounce from './utils/debounce';
+import Routes from 'routes'
+import reducer from 'reducers'
+
+import { loadDB, saveDB } from 'utils/localStorage'
+import debounce from 'utils/debounce';
+import { get_host } from 'config'
 
 import { connected, disconnected } from 'actions/core'
 
-
-//const debug_url = "c26dc055.ngrok.io"
-const debug_url = "localhost:8080"
-//@ts-ignore
-const host = window.api_url || debug_url;
+const host = get_host()
 
 const initial_state = loadDB()
 
