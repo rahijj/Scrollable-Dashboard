@@ -1,0 +1,17 @@
+.map-component {
+	height: 500px;
+	width: 75%;
+	margin: auto;
+}
+
+.map-wrapper {
+	height: 100%;
+	width: 100%;
+}
+
+#deckgl-wrapper {
+	display: block!important;
+	position: relative!important;
+	width: 100%!important;
+	height: 100%!important;
+}
