@@ -6,7 +6,7 @@ import { connect } from 'react-redux'
 
 import ErrorComponent from 'components/Error'
 
-import InputPage from './pages/input'
+import Dashboard from './pages/dashboard'
 import { submitError } from 'actions/core'
 
 interface P {
@@ -54,7 +54,7 @@ class Routes extends React.Component<P, S> {
 		return <Provider store={store}>
 			<BrowserRouter>
 				<Switch>
-					<Route exact path="/" component={InputPage} />
+					<Route exact path="/" component={Dashboard} />
 				</Switch>
 			</BrowserRouter>
 		</Provider>

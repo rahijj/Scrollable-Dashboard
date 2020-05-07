@@ -27,3 +27,21 @@ export const createLogin = (username: string, password: string, number: string) 
 		})
 
 }
+
+export const fetchDashboardData = () => (dispatch: Dispatch, getState: GetState, syncr: Syncr) => {
+
+	const state = getState()
+
+	syncr.send({
+		type: "GET_INITIAL_DATA",
+		client_type: state.auth.client_type,
+		id: state.auth.id,
+		payload: {}
+	})
+		.then(() => {
+
+		})
+		.catch(res => {
+
+		})
+}
