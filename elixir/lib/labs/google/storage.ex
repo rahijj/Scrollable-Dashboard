@@ -1,4 +1,10 @@
 defmodule Sarkar.Storage.Google do
+	@moduledoc """
+	A simple set of functions for uploading images to a google storage bucket.
+	"""
+
+	# TODO: support png and jpeg
+	# TODO: support arbitrary document upload
 	def upload_image(bucket_id, imageId, dataString) do
 
 		"data:image/png;base64," <> raw = dataString

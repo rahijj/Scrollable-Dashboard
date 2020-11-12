@@ -1,4 +1,7 @@
 defmodule Labs.ActionHandler do
+	@moduledoc """
+	An action handler template to be overwritten
+	"""
 
 	def handle_action(action, state) do
 
