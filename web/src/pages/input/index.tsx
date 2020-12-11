@@ -13,9 +13,7 @@ const Input = () => {
 				<div onClick={() => setCount(count - 1)} className="btn btn-red">-</div>
 				<div onClick={() => setCount(count + 1)} className="btn btn-green">+</div>
 			</div>
-
 		</div>
-
 	</div>
 }
 
