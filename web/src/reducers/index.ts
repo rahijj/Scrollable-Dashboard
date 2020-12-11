@@ -1,14 +1,14 @@
-import Dynamic from '@ironbay/dynamic'
+import Dynamic from '@cerp/dynamic'
 
-import { MERGES, MergeAction, ON_CONNECT, ON_DISCONNECT, DELETES, DeletesAction, QueueAction, QUEUE, CONFIRM_SYNC_DIFF, ConfirmSyncAction, SnapshotDiffAction, SNAPSHOT_DIFF } from '../actions/core'
+import { MERGES, MergeAction, ON_CONNECT, ON_DISCONNECT, DELETES, DeletesAction, QueueAction, QUEUE, CONFIRM_SYNC_DIFF, ConfirmSyncAction, SnapshotDiffAction, SNAPSHOT_DIFF, LOAD_ASYNC } from '../actions/core'
 import { AnyAction, Reducer } from 'redux';
-import { loadDB } from '../utils/localStorage';
+import { loadDBSync } from '../utils/storage';
 
 const rootReducer: Reducer<RootReducerState, AnyAction> = (state: RootReducerState | undefined, action: AnyAction): RootReducerState => {
 
 	// this never actually gets called because we initialize state in our `createStore` call
 	if (state === undefined) {
-		return loadDB()
+		return loadDBSync()
 	}
 
 	console.log(action.type)
@@ -63,6 +63,15 @@ const rootReducer: Reducer<RootReducerState, AnyAction> = (state: RootReducerSta
 						...state.queued,
 						...(action as QueueAction).payload
 					}
+				}
+			}
+
+		case LOAD_ASYNC:
+			{
+				const payload: Partial<RootReducerState> = action.payload;
+				return {
+					...state,
+					...payload
 				}
 			}
 

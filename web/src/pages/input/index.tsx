@@ -1,7 +1,6 @@
 import React from 'react'
-import { get_host } from 'config'
 
-export default () => {
+const Input = () => {
 
 	const [count, setCount] = React.useState(0)
 
@@ -15,3 +14,5 @@ export default () => {
 
 	</div>
 }
+
+export default Input

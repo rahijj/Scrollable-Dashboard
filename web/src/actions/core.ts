@@ -56,6 +56,17 @@ export const createMerges = (merges: Merge[]) => (dispatch: Dispatch, getState: 
 		.catch(err => dispatch(QueueUp(new_merges)))
 }
 
+export const LOAD_ASYNC = "LOAD_ASYNC"
+export interface LoadAsyncActionType {
+	type: typeof LOAD_ASYNC,
+	payload: Partial<RootReducerState>
+}
+
+export const LoadAsyncAction = (payload: Partial<RootReducerState>) => ({
+	type: LOAD_ASYNC,
+	payload
+})
+
 export const SMS = "SMS"
 export const sendSMS = (text: string, number: string) => (dispatch: Dispatch, getState: GetState, syncr: Syncr) => {
 
