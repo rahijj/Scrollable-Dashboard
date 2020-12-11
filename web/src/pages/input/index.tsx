@@ -1,4 +1,4 @@
-import Button from 'components/Button'
+import { RedButton, GreenButton } from 'components/Button'
 import React from 'react'
 
 const Input = () => {
@@ -11,8 +11,8 @@ const Input = () => {
 			Hello <span className="font-bold text-lg">{count}</span>
 
 			<div className="flex space-x-2 container justify-center">
-				<Button onClick={() => setCount(count - 1)}>-</Button>
-				<Button onClick={() => setCount(count + 1)}>+</Button>
+				<RedButton onClick={() => setCount(count - 1)}>-</RedButton>
+				<GreenButton onClick={() => setCount(count + 1)}>+</GreenButton>
 			</div>
 
 		</div>

@@ -1,14 +1,42 @@
 import React from 'react'
 
-interface Props {
+type Props = {
 	onClick: (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => void
 }
 
-const Button: React.FC<Props> = ({ onClick, children }) => {
+export const GreenButton: React.FC<Props> = ({ onClick, children }) => {
 
-	return <button onClick={onClick} className="py-2 px-4 bg-green-500 text-white font-semibold rounded-lg shadow-md hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-green-400 focus:ring-opacity-75">
+	return <Button onClick={onClick} className="
+		bg-green-500 
+		hover:bg-green-700 
+		text-white 
+		focus:ring-green-400">
+		{children}
+	</Button>
+}
+
+export const RedButton: React.FC<Props> = ({ onClick, children }) => {
+
+	return <Button onClick={onClick} className="
+		bg-red-500 
+		hover:bg-red-700 
+		text-white 
+		focus:ring-red-400">
+		{children}
+	</Button>
+}
+
+export const Button: React.FC<Props & { className: string }> = ({ onClick, children, className }) => {
+
+	return <button onClick={onClick} className={`
+		${className}
+		py-2 
+		px-4 
+		font-semibold 
+		rounded-lg shadow-md 
+		focus:outline-none focus:ring-2 focus:ring-opacity-75
+		`}>
 		{children}
 	</button>
 }
 
-export default Button;
