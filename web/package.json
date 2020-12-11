@@ -6,10 +6,13 @@
 		"@cerp/dynamic": "^1.0.12",
 		"@cerp/former": "^1.0.1",
 		"@cerp/syncr": "^1.1.2",
+		"@craco/craco": "^6.0.0",
 		"@ironbay/dynamic": "^2.0.0",
+		"autoprefixer": "^9.8.6",
 		"idb": "^5.0.4",
 		"idb-keyval": "^3.2.0",
 		"moment": "^2.27.0",
+		"postcss": "^7.0.35",
 		"react": "^17.0.1",
 		"react-dom": "^17.0.1",
 		"react-redux": "^7.2.2",
@@ -18,12 +21,13 @@
 		"react-scripts": "^4.0.1",
 		"redux": "^4.0.5",
 		"redux-thunk": "^2.3.0",
+		"tailwindcss": "npm:@tailwindcss/postcss7-compat@^2.0.1",
 		"uuid": "^8.3.0"
 	},
 	"scripts": {
-		"start": "export HTTPS=true && react-scripts start",
-		"build": "react-scripts build && cat sw-config.js >> ./build/service-worker.js",
-		"test": "react-scripts test",
+		"start": "export HTTPS=true && craco start",
+		"build": "craco build && cat sw-config.js >> ./build/service-worker.js",
+		"test": "craco test",
 		"eject": "react-scripts eject"
 	},
 	"eslintConfig": {
