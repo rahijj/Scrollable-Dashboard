@@ -1,4 +1,4 @@
-import { get, set, clear } from 'idb-keyval'
+import { get, set } from 'idb-keyval'
 import { v4 } from 'uuid'
 
 const client_type = "dashboard"
@@ -70,7 +70,7 @@ const loadClientId = () => {
 const saveSyncState = (sync_state: RootReducerState['sync_state']) => {
 	set('sync_state', sync_state)
 		.then(() => console.log('saved sync_state'))
-		.catch(err => console.error('error saving sync_state'))
+		.catch(() => console.error('error saving sync_state'))
 }
 
 const loadSyncState = () => {

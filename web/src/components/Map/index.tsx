@@ -28,18 +28,16 @@ const Map: React.FunctionComponent<P> = (props) => {
 		bearing: 0
 	}
 
-	return <div className="map-component">
-		<div key="" className="map-wrapper">
-			<DeckGL
-				initialViewState={viewState}
-				controller={true}
-				width="100%"
-				height="100%">
+	return <div className="h-full w-full">
+		<DeckGL
+			initialViewState={viewState}
+			controller={true}
+			width="100%"
+			height="100%">
 
-				<StaticMap mapboxApiAccessToken={mapbox_token} mapStyle={mapbox_style_url} width={100} height={100} />
+			<StaticMap mapboxApiAccessToken={mapbox_token} mapStyle={mapbox_style_url} width={100} height={100} />
 
-			</DeckGL>
-		</div>
+		</DeckGL>
 	</div>
 }
 
