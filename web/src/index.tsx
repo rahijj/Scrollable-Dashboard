@@ -9,15 +9,15 @@ import Syncr from '@cerp/syncr'
 import Routes from 'routes'
 import reducer from 'reducers'
 
-import { loadDB, saveDB } from 'utils/localStorage'
+import { loadDBSync, loadDBAsync, saveDB } from 'utils/storage'
 import debounce from 'utils/debounce';
 import { get_host } from 'config'
 
-import { connected, disconnected } from 'actions/core'
+import { connected, disconnected, LoadAsyncAction } from 'actions/core'
 
 const host = get_host()
 
-const initial_state = loadDB()
+const initial_state = loadDBSync()
 
 const syncr = new Syncr(`ws://${host}/ws`)
 
@@ -30,7 +30,15 @@ syncr.on('message', (msg: AnyAction) => store.dispatch(msg))
 const store: Store<RootReducerState> = createStore(
 	reducer,
 	initial_state,
-	applyMiddleware(thunkMiddleware.withExtraArgument(syncr) as ThunkMiddleware<RootReducerState, AnyAction, Syncr>))
+	applyMiddleware(thunkMiddleware.withExtraArgument(syncr) as ThunkMiddleware<RootReducerState, AnyAction, Syncr>)
+)
+
+loadDBAsync()
+	.then(val => {
+		if (val) {
+			store.dispatch(LoadAsyncAction(val))
+		}
+	})
 
 const saveBounce = debounce(() => {
 	const state = store.getState();

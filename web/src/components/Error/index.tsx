@@ -5,7 +5,7 @@ interface P {
 	errInfo: React.ErrorInfo
 }
 
-export default ({ error, errInfo }: P) => {
+const Error = ({ error, errInfo }: P) => {
 
 	return <div className="error-page">
 		Error!
@@ -15,3 +15,5 @@ export default ({ error, errInfo }: P) => {
 		<div>{errInfo.componentStack}</div>
 	</div>
 }
+
+export default Error

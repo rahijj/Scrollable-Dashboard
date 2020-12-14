@@ -17,7 +17,7 @@ const mapbox_style_url = "mapbox://styles/taimur38/cjnu7h5pn4jel2rqk4pbo74ke"
 const Map: React.FunctionComponent<P> = (props) => {
 
 	useEffect(() => {
-
+		// effect
 	}, [])
 
 	const viewState = {

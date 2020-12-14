@@ -1,4 +1,7 @@
 defmodule Labs.Syncr do
+	@moduledoc """
+	A module which enables in memory syncing of an object through the sending of mutations
+	"""
 	use GenServer
 
 	def init(args) do
@@ -15,7 +18,7 @@ defmodule Labs.Syncr do
 			name: {:via, Registry, {Labs.SyncrRegistry, id}})
 	end
 
-	# API 
+	# API
 
 	def sync_changes(id, client_id, changes, last_sync_date) do
 		GenServer.call(via(id), {:sync_changes, client_id, changes, last_sync_date})
@@ -44,9 +47,9 @@ defmodule Labs.Syncr do
 		# This is happening way more than expected. It should only happen for very out of date clients - which should not be the case in 1 day and no GC
 		min_write_date = if writes != %{} do
 
-			{_, %{"date" => mwd }} = writes 
+			{_, %{"date" => mwd }} = writes
 				|> Enum.min_by(fn {path_string, %{"date" => path_date}} -> path_date end)
-			
+
 			mwd
 		end
 
@@ -54,11 +57,11 @@ defmodule Labs.Syncr do
 
 		writes = if not have_all_in_memory? do
 				case Sarkar.Store.Syncr.get_writes(id, last_sync_date) do
-					{:ok, aug_writes} -> 
+					{:ok, aug_writes} ->
 						# whats in aug_writes that isnt in writes??
 						IO.puts "SUCCESSFUL DB RECOVERY @ #{:os.system_time(:millisecond)}. last_sync_date: #{last_sync_date} min_write_date: #{min_write_date}"
 						aug_writes
-					{:error, err} -> 
+					{:error, err} ->
 						IO.puts "ERROR ON DB RECOVERY"
 						IO.inspect err
 						writes
@@ -74,8 +77,8 @@ defmodule Labs.Syncr do
 		{nextDb, nextWrites, new_writes, last_date} = changes
 		|> Enum.sort(fn({ _, %{"date" => d1}}, {_, %{"date" => d2}}) -> d1 < d2 end)
 		|> Enum.reduce(
-			{db, writes, %{}, 0}, 
-			fn({path_key, payload}, {agg_db, agg_writes, agg_new_writes, max_date}) -> 
+			{db, writes, %{}, 0},
+			fn({path_key, payload}, {agg_db, agg_writes, agg_new_writes, max_date}) ->
 
 				%{
 					"action" => %{
@@ -100,7 +103,7 @@ defmodule Labs.Syncr do
 				case type do
 					"MERGE" ->
 						case Map.get(agg_writes, p_key) do
-							nil -> 
+							nil ->
 								{
 									Dynamic.put(agg_db, p, value),
 									Map.put(agg_writes, p_key, write),
@@ -123,7 +126,7 @@ defmodule Labs.Syncr do
 									agg_new_writes,
 									max_date
 								}
-							other -> 
+							other ->
 								IO.puts "OTHER!!!!!!!!!!!!!"
 								IO.inspect other
 								{
@@ -134,9 +137,9 @@ defmodule Labs.Syncr do
 								}
 						end
 
-					"DELETE" -> 
+					"DELETE" ->
 						case Map.get(agg_writes, p_key) do
-							nil -> 
+							nil ->
 								{
 									Dynamic.delete(agg_db, p),
 									Map.put(agg_writes, p_key, write),
@@ -167,7 +170,7 @@ defmodule Labs.Syncr do
 									max(date, max_date)
 								}
 						end
-					other -> 
+					other ->
 						IO.puts "unrecognized type"
 						{agg_db, max_date}
 				end
@@ -175,14 +178,14 @@ defmodule Labs.Syncr do
 
 		# at this point we need to send the new snapshot to all clients that are up to date.
 
-		# each client has sent its "last received data" date. 
+		# each client has sent its "last received data" date.
 		# when it connects, we should send all the latest writes that have happened since then, not the full db.
 		# get that data for it here.
 
 		relevant = nextWrites
-					|> Enum.filter(fn {path_string, %{"date" => path_date, "client_id" => cid }} -> 
+					|> Enum.filter(fn {path_string, %{"date" => path_date, "client_id" => cid }} ->
 
-						old = path_date > last_sync_date and not Map.has_key?(new_writes, path_string) 
+						old = path_date > last_sync_date and not Map.has_key?(new_writes, path_string)
 						new = old and cid != client_id
 
 						# if old and not new do
@@ -193,10 +196,10 @@ defmodule Labs.Syncr do
 						old and new
 					end)
 					|> Enum.into(%{})
-		
+
 		case map_size(new_writes) do
 			0 -> {:reply, confirm_sync_diff(last_date, relevant), {id, nextWrites, nextDb}}
-			_ -> 
+			_ ->
 				broadcast(id, client_id, snapshot_diff(new_writes))
 				Sarkar.Store.Syncr.save(id, nextDb, new_writes)
 				{:reply, confirm_sync_diff(last_date, relevant), {id, nextWrites, nextDb}}
@@ -207,7 +210,7 @@ defmodule Labs.Syncr do
 		{:reply, db, state}
 	end
 
-	def handle_call(a, b, c) do 
+	def handle_call(a, b, c) do
 		IO.inspect a
 		IO.inspect b
 		IO.inspect c

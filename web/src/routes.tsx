@@ -6,7 +6,9 @@ import { connect } from 'react-redux'
 
 import ErrorComponent from 'components/Error'
 
-import Dashboard from './pages/dashboard'
+import StackedLayout from './pages/StackedLayout'
+import InputPage from './pages/input'
+import Login from './pages/Login'
 import { submitError } from 'actions/core'
 
 interface P {
@@ -54,7 +56,9 @@ class Routes extends React.Component<P, S> {
 		return <Provider store={store}>
 			<BrowserRouter>
 				<Switch>
-					<Route exact path="/" component={Dashboard} />
+					<Route exact path="/" component={InputPage} />
+					<Route path="/login" component={Login} />
+					<Route path="/stacked" component={StackedLayout} />
 				</Switch>
 			</BrowserRouter>
 		</Provider>

@@ -1,3 +1,7 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
 body {
   margin: 0;
   padding: 0;
@@ -15,4 +19,20 @@ html, body, #root {
 code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, "Courier New",
     monospace;
+}
+
+@layer components {
+
+	.btn {
+		@apply py-2 px-4 font-semibold rounded-lg shadow-md focus:outline-none focus:ring-2 focus:ring-opacity-75
+	}
+
+	.btn-green {
+		@apply bg-green-500 hover:bg-green-700 text-white focus:ring-green-400 
+	}
+
+	.btn-red {
+		@apply bg-red-500 hover:bg-red-700 text-white focus:ring-red-400
+	}
+
 }
