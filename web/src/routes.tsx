@@ -6,7 +6,7 @@ import { connect } from 'react-redux'
 
 import ErrorComponent from 'components/Error'
 
-import Dashboard from './pages/dashboard'
+import Dashboard from './pages/dashboard/index'
 import { submitError } from 'actions/core'
 
 interface P {
