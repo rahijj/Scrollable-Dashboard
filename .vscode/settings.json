@@ -17,7 +17,7 @@
 		"**/_build": true,
 		"**/deps": true
 	},
-	"typescript.tsdk": "./node_modules/typescript/lib",
+	"typescript.tsdk": "./web/node_modules/typescript/lib",
 	"eslint.autoFixOnSave": true,
 	"eslint.validate": [
 		"javascript",
