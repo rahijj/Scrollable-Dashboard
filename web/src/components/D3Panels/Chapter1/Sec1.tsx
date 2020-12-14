@@ -11,13 +11,12 @@ interface P {
 }
 
 const HorzBarGraph: React.FC<P> = ({ width, height, cardInd, isVisible, section, headHeight }) => {
-    const margin = { top: 60, right: 20, bottom: 60, left: 60 };
     const [graphicFilter, set_graphic] = useState(999);
 
-    const navy: string = '#344a62';
     const grey: string = 'grey';
+    const navy: string = '#f19e99';
     const orange: string = 'orange';
-    const Colors: string[] = [navy, orange, grey];
+    const Colors: string[] = [grey, navy, orange];
 
     const pan = d3.select('.' + section);
 

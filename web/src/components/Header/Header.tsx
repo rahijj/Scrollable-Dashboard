@@ -47,8 +47,8 @@ const Header: React.FC<P> = ({ VisibleInd, SectionInd, openNav, set_openNav, Nav
 		</div>
 		<div className="topnav-container">
 			<div className="topnav" style={{ height: openNav }}>
-				<a className={String(VisibleInd === SectionInd['Sec_0'])} href="#LineTemp">Line Template</a>
-				<a className={String(VisibleInd === SectionInd['Sec_1'])} href="#HorzBarTemp">Horz Bar Template</a>
+				<a className={String(VisibleInd === SectionInd['Sec_1'])} href="#LineTemp">Line Template</a>
+				<a className={String(VisibleInd === SectionInd['Sec_2'])} href="#HorzBarTemp">Horz Bar Template</a>
 			</div>
 		</div>
 		<div id={NavBName} className='Nav_Button' onClick={() => {
