@@ -14,7 +14,7 @@ const HorzBarGraph: React.FC<P> = ({ width, height, cardInd, isVisible, section,
     const [graphicFilter, set_graphic] = useState(999);
 
     const grey: string = 'grey';
-    const navy: string = '#f19e99';
+    const navy: string = '#344a62';
     const orange: string = 'orange';
     const Colors: string[] = [grey, navy, orange];
 
