@@ -6,6 +6,7 @@ import { connect } from 'react-redux'
 
 import ErrorComponent from 'components/Error'
 
+import StackedLayout from './pages/StackedLayout'
 import InputPage from './pages/input'
 import Login from './pages/Login'
 import { submitError } from 'actions/core'
@@ -57,6 +58,7 @@ class Routes extends React.Component<P, S> {
 				<Switch>
 					<Route exact path="/" component={InputPage} />
 					<Route path="/login" component={Login} />
+					<Route path="/stacked" component={StackedLayout} />
 				</Switch>
 			</BrowserRouter>
 		</Provider>
