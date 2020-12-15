@@ -29,23 +29,26 @@ export const createLogin = (
 			console.error(res)
 			alert("login failed" + JSON.stringify(res))
 		})
-
 }
 
-export const fetchDashboardData = () => (dispatch: Dispatch, getState: GetState, syncr: Syncr) => {
-
+export const fetchDashboardData = () => (
+	dispatch: Dispatch,
+	getState: GetState,
+	syncr: Syncr
+) => {
 	const state = getState()
 
-	syncr.send({
-		type: "GET_INITIAL_DATA",
-		client_type: state.auth.client_type,
-		id: state.auth.id,
-		payload: {}
-	})
+	syncr
+		.send({
+			type: "GET_INITIAL_DATA",
+			client_type: state.auth.client_type,
+			id: state.auth.id,
+			payload: {},
+		})
 		.then(() => {
 			// do stuff
 		})
-		.catch(res => {
+		.catch((res) => {
 			console.error(res)
 		})
 }
