@@ -1,4 +1,9 @@
 defmodule EdMarkaz.Contegris do
+	@moduledoc """
+	A simple set of functions to send SMS messages through the contegris service.
+
+	This requires the CONTEGRIS_USER and CONTEGRIS_PASS environment variables to be set
+	"""
 	use Tesla
 
 	plug Tesla.Middleware.BaseUrl, "http://c5.contegris.com:4000/api"
@@ -10,6 +15,7 @@ defmodule EdMarkaz.Contegris do
 
 	def send_sms(number, text) do
 
+		# TODO: use elixir config instead of get_env
 		encoded = %{
 			"username" => System.get_env("CONTEGRIS_USER"),
 			"password" => System.get_env("CONTEGRIS_PASS"),

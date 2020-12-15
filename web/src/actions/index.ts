@@ -39,9 +39,9 @@ export const fetchDashboardData = () => (dispatch: Dispatch, getState: GetState,
 		payload: {}
 	})
 		.then(() => {
-
+			// do stuff
 		})
 		.catch(res => {
-
+			console.error(res)
 		})
 }

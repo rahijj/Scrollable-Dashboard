@@ -1,4 +1,8 @@
 defmodule Labs.Router do
+	@moduledoc """
+	This is a sample Router page for implementing RESTful http endpoints
+	"""
+
 	use Plug.Router
 
 	plug :match

@@ -3,16 +3,16 @@ import * as d3 from 'd3'
 function scroller(container: d3.Selection<d3.BaseType, unknown, HTMLElement, any>,
 	els: d3.Selection<d3.BaseType, unknown, d3.BaseType, unknown>, y: number) {
 
-	let sections: d3.Selection<d3.BaseType, unknown, d3.BaseType, unknown>;
-	let sectionPositions: number[] = [];
+	//let sections: d3.Selection<d3.BaseType, unknown, d3.BaseType, unknown>;
+	const sectionPositions: number[] = [];
 	// let containerStart = 0;
 
-	sections = els;
+	const sections = els;
 
-	let startPos: number = 0;
+	let startPos = 0;
 	sections.each(function (d, i: number) {
 		//@ts-ignore
-		let top = this.getBoundingClientRect().top;
+		const top = this.getBoundingClientRect().top;
 		//@ts-ignore
 		// console.log('TOP', this.getBoundingClientRect(), top)
 		//@ts-ignore
@@ -35,7 +35,7 @@ function scroller(container: d3.Selection<d3.BaseType, unknown, HTMLElement, any
 	}
 
 	// let pos1 = y + offset - containerStart;
-	let pos: number = 0
+	let pos = 0
 	//@ts-ignore
 	pos = offset - container.node().getBoundingClientRect().top;
 
@@ -49,7 +49,7 @@ function scroller(container: d3.Selection<d3.BaseType, unknown, HTMLElement, any
 		if (pos >= sectionPositions[sectionPositions.length - 1]) {
 			sectionIndex = sectionPositions.length - 1
 		} else {
-			for (var i = 0; i < sectionPositions.length - 1; i++) {
+			for (let i = 0; i < sectionPositions.length - 1; i++) {
 				if (pos >= sectionPositions[i] && pos < sectionPositions[i + 1]) {
 					sectionIndex = i
 				}

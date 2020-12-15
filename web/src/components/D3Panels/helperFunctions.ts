@@ -2,7 +2,7 @@ import * as d3 from 'd3'
 
 // Generates as many d3 elements as there are items in the passedData list.
 export function generateElements(passedData: [string, any][], className: string,
-	selection: d3.Selection<d3.BaseType, unknown, HTMLElement, any>, element: string = 'rect') {
+	selection: d3.Selection<d3.BaseType, unknown, HTMLElement, any>, element = 'rect') {
 
 	// const t = selection.transition().duration(900);
 	selection.selectAll('.' + className)
@@ -19,7 +19,7 @@ export function generateElements(passedData: [string, any][], className: string,
 		)
 }
 export function generateVertBars(passedData: [string, any][], className: string,
-	selection: d3.Selection<d3.BaseType, unknown, HTMLElement, any>, linearScale: any, element: string = 'rect') {
+	selection: d3.Selection<d3.BaseType, unknown, HTMLElement, any>, linearScale: any, element = 'rect') {
 
 	// const t = selection.transition().duration(900);
 	selection.selectAll('.' + className)
@@ -53,9 +53,9 @@ export function generateAxis(bandDomain: string[], linearDomain: [number, number
 	return [linearScale, bandScale]
 }
 export function showXAxis(axis: any, selection: d3.Selection<d3.BaseType, unknown, HTMLElement, any>,
-	innerHeight: number = 0,
-	innerWidth: number = 0,
-	xLabel: string = ""
+	innerHeight = 0,
+	innerWidth = 0,
+	xLabel = ""
 ) {
 	selection.select('.xAxis')
 		// .transition().duration(1000)
@@ -73,9 +73,9 @@ export function showXAxis(axis: any, selection: d3.Selection<d3.BaseType, unknow
 }
 
 export function showXAxisMonth(axis: any, selection: d3.Selection<d3.BaseType, unknown, HTMLElement, any>,
-	innerHeight: number = 0,
-	innerWidth: number = 0,
-	xLabel: string = ""
+	innerHeight = 0,
+	innerWidth = 0,
+	xLabel = ""
 ) {
 	selection.select('.xAxis')
 		// .transition().duration(1000)
@@ -91,9 +91,9 @@ export function showXAxisMonth(axis: any, selection: d3.Selection<d3.BaseType, u
 }
 
 export function showYAxis(axis: any, selection: d3.Selection<d3.BaseType, unknown, HTMLElement, any>,
-	innerHeight: number = 0,
-	innerWidth: number = 0,
-	yLabel: string = "",
+	innerHeight = 0,
+	innerWidth = 0,
+	yLabel = "",
 	margin: {
 		top: number;
 		right: number;
@@ -124,17 +124,17 @@ export function showYAxis(axis: any, selection: d3.Selection<d3.BaseType, unknow
 
 }
 export function plotTitle(selection: d3.Selection<d3.BaseType, unknown, HTMLElement, any>,
-	innerWidth: number = 0,
-	title: string = "test",
-	split: boolean = false,
-	horzTranslate: number = 0
+	innerWidth = 0,
+	title = "test",
+	split = false,
+	horzTranslate = 0
 ) {
 	const classes = ['plotTitle']
 	const textList: string[] = []
 	if (title.split(' ').length > 5 && split) {
 		classes.push('plotTitle1')
 		let temp = ''
-		let splits = title.split(' ')
+		const splits = title.split(' ')
 		for (let i = 0; i < 6; i++) {
 			temp += ' ' + splits[i]
 		}
@@ -167,7 +167,7 @@ export function plotTitle(selection: d3.Selection<d3.BaseType, unknown, HTMLElem
 		i += 1
 	})
 }
-export function createAxis(selection: d3.Selection<d3.BaseType, unknown, HTMLElement, any>, innerHeight: number = 0) {
+export function createAxis(selection: d3.Selection<d3.BaseType, unknown, HTMLElement, any>, innerHeight = 0) {
 
 	if (selection.select('.yAxis').empty()) {
 		selection.append('g')
@@ -187,7 +187,7 @@ export function createAxis(selection: d3.Selection<d3.BaseType, unknown, HTMLEle
 	else {
 		selection.select('.xAxis')
 			.attr('transform', `translate(0,${innerHeight})`)
-	};
+	}
 }
 
 export function createGrid(selection: d3.Selection<d3.BaseType, unknown, HTMLElement, any>, innerHeight: number) {
@@ -204,7 +204,7 @@ export function createGrid(selection: d3.Selection<d3.BaseType, unknown, HTMLEle
 	else {
 		selection.select('.xGrid')
 			.attr('transform', `translate(0,${innerHeight})`)
-	};
+	}
 }
 
 export function showXGrid(axis: any, selection: d3.Selection<d3.BaseType, unknown, HTMLElement, any>) {
@@ -239,14 +239,14 @@ export function getConfInt(array: number[]) {
 export function showtip(d: any, tooltipTable: Record<string, Record<string, string>>,
 	tableBody: any) {
 
-	let match = d[0]
+	const match = d[0]
 	// console.log('tip', d, tooltipTable)
 	if (match in tooltipTable) {
 		let check = 0;
-		let rowList = Object.entries(tooltipTable[match])
+		const rowList = Object.entries(tooltipTable[match])
 		generateElements(rowList, 'tr', tableBody, 'tr')
-		let rows = d3.selectAll(".tr")
-		let cells = rows.selectAll("td")
+		const rows = d3.selectAll(".tr")
+		const cells = rows.selectAll("td")
 			.data((d: any) => d)
 			.join(
 				enter => enter.append('td')
@@ -278,9 +278,9 @@ export function showtip(d: any, tooltipTable: Record<string, Record<string, stri
 			)
 	} else {
 		generateElements([['rows', 1]], 'tr', tableBody, 'tr')
-		let rows = d3.selectAll(".tr")
+		const rows = d3.selectAll(".tr")
 		generateElements([['td', 1]], 'td', rows, 'td')
-		let cells = d3.selectAll(".td")
+		const cells = d3.selectAll(".td")
 		cells.text((d[1]).toFixed(2) + '%')
 	}
 }
@@ -370,21 +370,21 @@ export function highlightLine({ data,
 	selection.selectAll('.' + className)
 		.on('mouseover', (d: any) => {
 			// console.log('wtf', d.path[0].__data__)
-			changeRadius( d.path[0].__data__)
-			showtip( d.path[0].__data__, tooltipTable, tableBody)
+			changeRadius(d.path[0].__data__)
+			showtip(d.path[0].__data__, tooltipTable, tableBody)
 			tooltip.style("left", () => {
 				if (month) {
-					let ind =  d.path[0].__data__[0].indexOf('#')
+					let ind = d.path[0].__data__[0].indexOf('#')
 					if (ind == -1) {
-						ind =  d.path[0].__data__[0].length
+						ind = d.path[0].__data__[0].length
 					}
-					return (bandScale(new Date(2020,  d.path[0].__data__[0].slice(0, ind), 1)) - 20 + "px")
+					return (bandScale(new Date(2020, d.path[0].__data__[0].slice(0, ind), 1)) - 20 + "px")
 				}
 				else {
-					return (bandScale( d.path[0].__data__[0]) - 20 + "px")
+					return (bandScale(d.path[0].__data__[0]) - 20 + "px")
 				}
 			})
-				.style("top", linearScale( d.path[0].__data__[1]) + 85 + "px")
+				.style("top", linearScale(d.path[0].__data__[1]) + 85 + "px")
 				.style('display', 'block');
 		})
 		.on("mouseout", () => {
@@ -511,7 +511,7 @@ export function showLegend(ItemsColours: Record<string, string>, selection: any)
 }
 
 export function showLegendDot(ItemsColours: Record<string, string>, selection: any,
-	marginTop: boolean = false, totalItems: number = 1) {
+	marginTop = false, totalItems = 1) {
 
 	const Items = Object.entries(ItemsColours)
 	const leg = selection.selectAll('.legend')
@@ -557,7 +557,7 @@ export function showLegendDot(ItemsColours: Record<string, string>, selection: a
 
 export function wrapY(text: any, width: any) {
 	text.each((d: any, i: any, n: any) => {
-		var text = d3.select(n[i]),
+		let text = d3.select(n[i]),
 			words = text.text().split(/\s+/).reverse(),
 			word,
 			line: string[] = [],
@@ -579,7 +579,7 @@ export function wrapY(text: any, width: any) {
 
 export function wrapX(text: any, width: any) {
 	text.each((d: any, i: any, n: any) => {
-		var text = d3.select(n[i]),
+		let text = d3.select(n[i]),
 			words = text.text().split(/\s+/).reverse(),
 			word,
 			line: string[] = [],
@@ -620,7 +620,7 @@ export function makeLineMonth({
 	Colors = ['#344a62', 'orange', 'grey']
 }: makeLineMonth) {
 
-	let line: any = d3.line()
+	const line: any = d3.line()
 		.x((d) => {
 			return (bandScale(new Date(2020, d[0], 1)))
 		})
