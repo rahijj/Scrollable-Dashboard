@@ -1,6 +1,4 @@
-interface SyncState {
-
-}
+interface SyncState {}
 
 interface RootReducerState {
 	sync_state?: SyncState
