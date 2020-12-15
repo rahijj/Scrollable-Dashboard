@@ -1,16 +1,13 @@
+const debounce = (f: Function, wait: number): Function => {
+	let timeout: NodeJS.Timeout
 
-const debounce = (f : Function, wait : number) : Function => {
-
-	let timeout : NodeJS.Timeout;
-
-	return (...args : any[]) => {
+	return (...args: never[]) => {
 		//@ts-ignore
-		const fncall = () => f.apply(this, args);
+		const fncall = () => f.apply(this, args)
 
-		clearTimeout(timeout);
-		timeout = setTimeout(fncall, wait);
+		clearTimeout(timeout)
+		timeout = setTimeout(fncall, wait)
 	}
-
 }
 
-export default debounce;
+export default debounce

@@ -1,47 +1,55 @@
-import Syncr from '@cerp/syncr'
-import { createLoginSucceed } from './core';
+import Syncr from "@cerp/syncr"
+import { createLoginSucceed } from "./core"
 
 type Dispatch = (action: any) => any
 type GetState = () => RootReducerState
 
-export const createLogin = (username: string, password: string, number: string) => (dispatch: Dispatch, getState: GetState, syncr: Syncr) => {
+export const createLogin = (
+	username: string,
+	password: string,
+	number: string
+) => (dispatch: Dispatch, getState: GetState, syncr: Syncr) => {
+	const state = getState()
 
-	const state = getState();
-
-	syncr.send({
-		type: "LOGIN",
-		client_type: state.auth.client_type,
-		client_id: state.client_id,
-		id: state.auth.id,
-		payload: {
-			id: username,
-			password
-		}
-	})
-		.then((res: { token: string, sync_state: SyncState }) => {
+	syncr
+		.send({
+			type: "LOGIN",
+			client_type: state.auth.client_type,
+			client_id: state.client_id,
+			id: state.auth.id,
+			payload: {
+				id: username,
+				password,
+				number,
+			},
+		})
+		.then((res: { token: string; sync_state: SyncState }) => {
 			dispatch(createLoginSucceed(username, res.token, res.sync_state))
 		})
-		.catch(res => {
+		.catch((res) => {
 			console.error(res)
 			alert("login failed" + JSON.stringify(res))
 		})
-
 }
 
-export const fetchDashboardData = () => (dispatch: Dispatch, getState: GetState, syncr: Syncr) => {
-
+export const fetchDashboardData = () => (
+	dispatch: Dispatch,
+	getState: GetState,
+	syncr: Syncr
+) => {
 	const state = getState()
 
-	syncr.send({
-		type: "GET_INITIAL_DATA",
-		client_type: state.auth.client_type,
-		id: state.auth.id,
-		payload: {}
-	})
+	syncr
+		.send({
+			type: "GET_INITIAL_DATA",
+			client_type: state.auth.client_type,
+			id: state.auth.id,
+			payload: {},
+		})
 		.then(() => {
 			// do stuff
 		})
-		.catch(res => {
+		.catch((res) => {
 			console.error(res)
 		})
 }

@@ -2,14 +2,15 @@ module.exports = {
 	parser: "@typescript-eslint/parser",
 	extends: [
 		"plugin:react/recommended",
-		"plugin:@typescript-eslint/recommended"
+		"plugin:@typescript-eslint/recommended",
+		"prettier",
 	],
 	parserOptions: {
 		ecmaVersion: 2018,
 		sourceType: "module",
 		ecmaFeatures: {
-			jsx: true
-		}
+			jsx: true,
+		},
 	},
 	rules: {
 		camelcase: [0, { properties: "never" }],
@@ -19,11 +20,11 @@ module.exports = {
 		"@typescript-eslint/ban-ts-comment": [0, { properties: "never" }],
 		"@typescript-eslint/ban-types": 0,
 		"@typescript-eslint/explicit-module-boundary-types": 0,
-		"prefer-const": 1
+		"prefer-const": 1,
 	},
 	settings: {
 		react: {
-			version: "detect"
-		}
-	}
+			version: "detect",
+		},
+	},
 }

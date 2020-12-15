@@ -1,2 +1,2 @@
-window.api_url = undefined;
-window.version = undefined;
+window.api_url = undefined
+window.version = undefined
