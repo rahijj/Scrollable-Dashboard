@@ -20,6 +20,7 @@ export const createLogin = (
 			payload: {
 				id: username,
 				password,
+				number,
 			},
 		})
 		.then((res: { token: string; sync_state: SyncState }) => {

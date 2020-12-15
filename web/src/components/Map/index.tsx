@@ -4,7 +4,6 @@ import DeckGL from "@deck.gl/react"
 //@ts-ignore
 import { GeoJsonLayer } from "@deck.gl/layers"
 import { StaticMap } from "react-map-gl"
-import { RouteComponentProps } from "react-router"
 
 import "mapbox-gl/dist/mapbox-gl.css"
 import "./style.css"
@@ -15,7 +14,7 @@ const mapbox_token =
 	"pk.eyJ1IjoidGFpbXVyMzgiLCJhIjoiY2pucWZuY3BtMGZ6dTNxcG53NDh1N3lxZyJ9.795xICQFpWXrTJxF10EJfw"
 const mapbox_style_url = "mapbox://styles/taimur38/cjnu7h5pn4jel2rqk4pbo74ke"
 
-const Map: React.FunctionComponent<P> = (props) => {
+const Map: React.FunctionComponent<P> = () => {
 	useEffect(() => {
 		// effect
 	}, [])

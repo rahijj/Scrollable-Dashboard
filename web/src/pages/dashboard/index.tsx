@@ -4,14 +4,6 @@ import { RouteComponentProps } from "react-router"
 type P = {} & RouteComponentProps
 
 const Dashboard: React.FC<P> = () => {
-	const viewState = {
-		latitude: 31.1704,
-		longitude: 72.7097,
-		zoom: 4,
-		pitch: 0,
-		bearing: 0,
-	}
-
 	return (
 		<>
 			<header className="bg-white shadow">
