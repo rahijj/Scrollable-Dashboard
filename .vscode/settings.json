@@ -1,4 +1,5 @@
 {
+<<<<<<< HEAD
 	"elixir.projectPath": "./elixir",
 	"search.exclude": {
 		"**/node_modules": true,
@@ -39,3 +40,38 @@
 		"source.fixAll.eslint": true
 	}
 }
+=======
+  "elixir.projectPath": "./elixir",
+  "search.exclude": {
+    "**/node_modules": true,
+    "**/bower_components": true,
+    "**/_build": true,
+    "**/deps": true,
+    "**/dist": true,
+    "**/.cache": true,
+    "typescript/**": true
+  },
+  "files.watcherExclude": {
+    "**/.git/objects/**": true,
+    "**/.git/subtree-cache/**": true,
+    "**/node_modules/**": true,
+    "**/bower_components": true,
+    "**/_build": true,
+    "**/deps": true
+  },
+  "editor.defaultFormatter": "esbenp.prettier-vscode",
+  "editor.insertSpaces": false,
+  "[typescript]": {
+    "editor.defaultFormatter": "esbenp.prettier-vscode"
+  },
+  "[typescriptreact]": {
+    "editor.defaultFormatter": "esbenp.prettier-vscode"
+  },
+  "typescript.tsdk": "./web/node_modules/typescript/lib",
+  "files.trimFinalNewlines": true,
+  "files.trimTrailingWhitespace": true,
+  "editor.codeActionsOnSave": {
+    "source.fixAll.eslint": true
+  }
+}
+>>>>>>> 5f7546ed9e9fcb253b3419576da60858988c5071

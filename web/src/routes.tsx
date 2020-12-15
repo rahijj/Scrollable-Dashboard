@@ -1,15 +1,15 @@
-import * as React from 'react'
-import { Provider } from 'react-redux'
-import { BrowserRouter, Route, Switch } from 'react-router-dom'
-import { Store } from 'redux'
-import { connect } from 'react-redux'
+import * as React from "react"
+import { Provider } from "react-redux"
+import { BrowserRouter, Route, Switch } from "react-router-dom"
+import { Store } from "redux"
+import { connect } from "react-redux"
 
-import ErrorComponent from 'components/Error'
+import ErrorComponent from "components/Error"
 
-import StackedLayout from './pages/StackedLayout'
-import InputPage from './pages/input'
-import Login from './pages/Login'
-import { submitError } from 'actions/core'
+import StackedLayout from "./pages/StackedLayout"
+import InputPage from "./pages/input"
+import Login from "./pages/Login"
+import { submitError } from "actions/core"
 
 interface P {
 	store: Store
@@ -24,51 +24,55 @@ interface S {
 }
 
 class Routes extends React.Component<P, S> {
-
 	constructor(props: P) {
 		super(props)
 
 		this.state = {
-			error: undefined
+			error: undefined,
 		}
 	}
 
 	componentDidCatch(err: Error, errInfo: React.ErrorInfo) {
-
 		this.props.sendError(err, errInfo)
 
 		this.setState({
 			error: {
 				err,
-				errInfo
-			}
+				errInfo,
+			},
 		})
-
 	}
 
 	render() {
 		const store = this.props.store
 
 		if (this.state.error) {
-			return <ErrorComponent error={this.state.error.err} errInfo={this.state.error.errInfo} />
+			return (
+				<ErrorComponent
+					error={this.state.error.err}
+					errInfo={this.state.error.errInfo}
+				/>
+			)
 		}
 
-		return <Provider store={store}>
-			<BrowserRouter>
-				<Switch>
-					<Route exact path="/" component={InputPage} />
-					<Route path="/login" component={Login} />
-					<Route path="/stacked" component={StackedLayout} />
-				</Switch>
-			</BrowserRouter>
-		</Provider>
-
+		return (
+			<Provider store={store}>
+				<BrowserRouter>
+					<Switch>
+						<Route exact path="/" component={InputPage} />
+						<Route path="/login" component={Login} />
+						<Route path="/stacked" component={StackedLayout} />
+					</Switch>
+				</BrowserRouter>
+			</Provider>
+		)
 	}
 }
 
 export default connect(
 	(state: RootReducerState) => ({}),
 	(dispatch: Function) => ({
-		sendError: (err: Error, errInfo: React.ErrorInfo) => dispatch(submitError(err, errInfo))
+		sendError: (err: Error, errInfo: React.ErrorInfo) =>
+			dispatch(submitError(err, errInfo)),
 	})
 )(Routes)
