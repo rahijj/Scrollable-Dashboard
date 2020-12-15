@@ -3,7 +3,7 @@ import Map from "components/Map"
 import { RouteComponentProps } from "react-router"
 type P = {} & RouteComponentProps
 
-const Dashboard = () => {
+const Dashboard: React.FC<P> = () => {
 	const viewState = {
 		latitude: 31.1704,
 		longitude: 72.7097,
