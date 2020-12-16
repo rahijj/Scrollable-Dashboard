@@ -3,11 +3,19 @@ defmodule Labs.MixProject do
 
   def project do
     [
-      app: :labs,
+	  app: :labs,
       version: "0.1.0",
       elixir: "~> 1.8",
       start_permanent: Mix.env() == :prod,
-      deps: deps()
+	  deps: deps(),
+
+	  # Docs
+	  name: "Labs Backend Framework",
+	  source_url: "https://github.com/CERP/framework",
+	  homepage_url: "https://github.com/CERP/Framework",
+	  docs: [
+		  main: "Labs Framework"
+	  ]
     ]
   end
 
@@ -33,6 +41,7 @@ defmodule Labs.MixProject do
 		{:plug_cowboy, "~> 2.0" },
 		{:uuid, "~> 1.1"},
 		{:postgrex, "~>0.13.3"},
+		{:ex_doc, "~>0.22.0", only: :dev, runtime: false},
 		{:dynamic, github: "ironbay/dynamic", sparse: "elixir"}
       # {:dep_from_hexpm, "~> 0.3.0"},
       # {:dep_from_git, git: "https://github.com/elixir-lang/my_dep.git", tag: "0.1.0"}

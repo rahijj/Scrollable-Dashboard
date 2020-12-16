@@ -1,4 +1,10 @@
 defmodule Labs.Websocket do
+	@moduledoc """
+	This module wraps low-level websocket behaviour and should not need to be altered.
+
+	It enables reply/request behaviour on websocket messages which are leveraged by the Labs typescript Syncr library
+	"""
+
 	@behaviour :cowboy_websocket
 
 	def init(req, state) do

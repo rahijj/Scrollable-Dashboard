@@ -1,4 +1,11 @@
 defmodule Labs.Store.Syncr do
+	@moduledoc """
+	This is a module that deals with the saving of a Sync'd state into a database (currently Postgres).
+
+	Much of this is to be used as an example, for customized sync'd code in the future, though it can be used out of the box.
+
+	Typically you only need runtime access to the `save/2`, `load/1` and `get_writes/2` functions.
+	"""
 
 	def save(id, writes) do
 		save_flattened(id, writes)
