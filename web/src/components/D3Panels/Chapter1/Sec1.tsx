@@ -1,16 +1,6 @@
-import React, { useEffect, useState } from "react"
-import * as d3 from "d3"
+import React from "react"
 
-interface P {
-	width: number
-	height: number
-	cardInd: number
-	isVisible: boolean
-	section: string
-	headHeight: number
-}
-
-const HorzBarGraph: React.FC<P> = ({
+const ColorSection: React.FC<SectionProps> = ({
 	width,
 	height,
 	cardInd,
@@ -18,70 +8,37 @@ const HorzBarGraph: React.FC<P> = ({
 	section,
 	headHeight,
 }) => {
-	const [graphicFilter, set_graphic] = useState(999)
-
-	const grey = "grey"
-	const navy = "#344a62"
-	const orange = "orange"
-	const Colors: string[] = [grey, navy, orange]
-
-	const pan = d3.select("." + section)
-
-	useEffect(() => {
-		if (isVisible) {
-			pan.selectAll(".card").style("opacity", function (d, i) {
-				return i === cardInd ? 1 : 0.3
-			})
-
-			d3.select("#SecTemp1SVG").style("opacity", 1)
-		} else {
-			pan.selectAll(".card").style("opacity", 0.4)
-
-			d3.select("#SecTemp1SVG").style("opacity", 0.4)
-		}
-		set_graphic(999)
-	}, [isVisible, cardInd, width, height, headHeight])
+	const colors = ["grey", "#344a62", "orange"]
 
 	return (
 		<div
-			id="SecTemp1"
+			id="ColorSection"
 			className="section"
 			style={{
 				width: `${width}`,
 				height: `${(height + headHeight) * 4}px`,
 			}}>
+			<div id="graphic" className={section}>
+				<div className="card">
+					<div className="content">Grey</div>
+				</div>
+				<div className="card">
+					<div className="content">Blue</div>
+				</div>
+				<div className="card">
+					<div className="content">Orange</div>
+				</div>
+			</div>
 			<div
-				id="graphic"
-				className={section}
-				style={{ zIndex: graphicFilter }}>
-				<div className="card">
-					<div className="content">
-						Lorem ipsum dolor sit amet, consectetur adipiscing elit.
-						Duis facilisis suscipit dui accumsan mattis.
-					</div>
-				</div>
-				<div className="card">
-					<div className="content">
-						Lorem ipsum dolor sit amet, consectetur adipiscing elit.
-						Duis facilisis suscipit dui accumsan mattis.
-					</div>
-				</div>
-				<div className="card">
-					<div className="content">
-						Lorem ipsum dolor sit amet, consectetur adipiscing elit.
-						Duis facilisis suscipit dui accumsan mattis.
-					</div>
-				</div>
-			</div>
-			<div id="vis" style={{ height: height }}>
-				<svg
-					id="SecTemp1SVG"
-					width={width}
-					height={height}
-					style={{ backgroundColor: Colors[cardInd] }}></svg>
-			</div>
+				id="vis"
+				style={{
+					height: height,
+					backgroundColor: colors[cardInd],
+					transition: "all .3s ease-in",
+				}}
+			/>
 		</div>
 	)
 }
 
-export default HorzBarGraph
+export default ColorSection

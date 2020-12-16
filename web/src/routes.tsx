@@ -8,6 +8,7 @@ import ErrorComponent from "components/Error"
 
 import Dashboard from "./pages/dashboard/index"
 import { submitError } from "actions/core"
+import StackedLayout from "pages/StackedLayout"
 
 interface P {
 	store: Store
@@ -58,6 +59,7 @@ class Routes extends React.Component<P, S> {
 				<BrowserRouter>
 					<Switch>
 						<Route exact path="/" component={Dashboard} />
+						<Route path="stacked" component={StackedLayout} />
 					</Switch>
 				</BrowserRouter>
 			</Provider>

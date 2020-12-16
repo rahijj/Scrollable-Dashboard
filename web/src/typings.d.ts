@@ -1,5 +1,14 @@
 interface SyncState {}
 
+type SectionProps = {
+	width: number
+	height: number
+	cardInd: number
+	isVisible: boolean
+	section: string
+	headHeight: number
+}
+
 interface RootReducerState {
 	sync_state?: SyncState
 	auth: {

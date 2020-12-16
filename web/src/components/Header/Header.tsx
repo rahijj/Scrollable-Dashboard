@@ -3,12 +3,9 @@ import cl from "/public/cerp-logo.svg"
 interface P {
 	VisibleInd: number
 	SectionInd: Record<string, number>
-	openNav: string
-	set_openNav: Function
-	NavBName: string
-	set_NavBName: Function
 }
 
+// TODO: nav open/close should be entirely handled in header, not with props
 const Header: React.FC<P> = ({
 	VisibleInd,
 	SectionInd,
