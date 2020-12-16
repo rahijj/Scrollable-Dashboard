@@ -12,74 +12,36 @@ import { RouteComponentProps } from "react-router"
 
 type P = {} & RouteComponentProps
 const raw_data: any = {}
+
+const getHeaderHeight = () => {
+	const isMobile = window.matchMedia("(max-width: 767px)").matches
+
+	const header_classname = isMobile ? "logo-header-logo" : "header"
+	const header_element = document.getElementsByClassName(header_classname)
+	return header_element.length > 0 ? header_element[0].clientHeight : 0
+}
+
 const Dashboard: React.FunctionComponent<P> = (props) => {
-	const [openNav, set_openNav] = useState("94px")
-	const [NavBName, set_NavBName] = useState("Navigation")
 	// This Height and width paramerters passed to the components is the
 	// height and width we want our svg graph to be.
 
 	// The -180 here is the height of the header
-	const [headHeight, setHeadHeight] = useState(0)
-	const [height, setHeight] = useState(window.innerHeight - headHeight)
-	const [width, setWidth] = useState(window.innerWidth * 0.75)
+	const [height, setHeight] = useState(window.innerHeight)
+	const [width, setWidth] = useState(window.innerWidth)
 	const [y, setY] = useState(250)
 	const [visibleInd, setVisibleInd] = useState(-1)
-	const [orient, setOrient] = useState("0")
 	/*The Index of cardInd specifies the section, and the value specifies the card number
 	 active for that section.*/
-	const [cardInd, setCardInd]: [number[], Function] = useState([])
-
-	//SectionInd MUST be in same Order as Order of Sections in d3-main div below
-	const SectionInd: Record<string, number> = {
-		Sec_0: 0,
-		Sec_1: 0,
-		Sec_2: 0,
-	}
-
-	let n = 0
-	Object.keys(SectionInd).forEach((e) => {
-		SectionInd[e] = n
-		n += 1
-	})
-	useEffect(() => {
-		setHeadHeight(document.getElementsByClassName("header")[0].clientHeight)
-
-		if (window.matchMedia("(max-width: 767px)").matches) {
-			set_openNav("0vh")
-			setHeight(window.innerHeight - headHeight)
-		}
-		if (window.matchMedia("(orientation: landscape)").matches) {
-			setOrient("90")
-		}
-	}, [])
+	const [cardIndex, setCardIndex]: [number[], Function] = useState([])
 
 	useEffect(() => {
-		setHeight(window.innerHeight - headHeight)
-	}, [headHeight])
-
-	useEffect(() => {
-		if (window.matchMedia("(max-width: 767px)").matches) {
-			setHeadHeight(
-				document.getElementsByClassName("logo-header-logo")[0]
-					.clientHeight
-			)
-			setWidth(window.innerWidth * 0.95)
-			if (window.matchMedia("(orientation: landscape)").matches) {
-				if (orient != "90") {
-					setHeight(window.innerHeight - headHeight)
-					setOrient("90")
-				}
-			} else if (orient != "0") {
-				setHeight(window.innerHeight - headHeight)
-				setOrient("0")
-			}
-		} else {
-			setHeadHeight(
-				document.getElementsByClassName("header")[0].clientHeight
-			)
-		}
 		window.onscroll = () => setY(window.pageYOffset)
+
 		window.onresize = () => {
+			setWidth(window.innerWidth)
+			setHeight(window.innerHeight)
+
+			/*
 			if (window.matchMedia("(max-width: 767px)").matches) {
 				// compare new height to old height
 				// only update at 20% change
@@ -106,6 +68,7 @@ const Dashboard: React.FunctionComponent<P> = (props) => {
 
 				setHeight(window.innerHeight - headHeight)
 			}
+			*/
 		}
 	})
 
@@ -117,54 +80,69 @@ const Dashboard: React.FunctionComponent<P> = (props) => {
 		let n = 0
 		Object.keys(SectionInd).forEach((sec) => {
 			const pan = d3.select("." + sec)
-			const temp = cardInd
+			const temp = cardIndex
 			temp[n] = scroller(pan, pan.selectAll(".card"), y)
-			setCardInd(temp)
+			setCardIndex(temp)
 			n += 1
 		})
 	})
 
+	//SectionInd MUST be in same Order as Order of Sections in d3-main div below
+	const SectionInd: Record<string, number> = {
+		Sec_0: 0,
+		Sec_1: 0,
+		Sec_2: 0,
+	}
+
+	let n = 0
+	Object.keys(SectionInd).forEach((e) => {
+		SectionInd[e] = n
+		n += 1
+	})
+
+	const header_height = getHeaderHeight()
+	const container_height = height - header_height
+	const container_width = 0.75 * width
+
+	const section_components = [Sec1, LineGraph, HorzBarGraph]
+
 	return (
 		<div className="main">
-			<Header
-				VisibleInd={visibleInd}
-				SectionInd={SectionInd}
-				openNav={openNav}
-				set_openNav={set_openNav}
-				NavBName={NavBName}
-				set_NavBName={set_NavBName}
-			/>
+			<Header VisibleInd={visibleInd} SectionInd={SectionInd} />
 
 			<div className="d3-main">
 				<Loading loading={false} />
 				<div
 					className="GraphsDiv"
 					style={{ width: "100%", display: "block" }}>
+					{/*
+							section_components.map((S, i) => <S key={i} width={container_width} height/>)
+						*/}
 					<Sec1
-						width={width}
-						height={height}
-						cardInd={cardInd[SectionInd["Sec_0"]]}
+						width={container_width}
+						height={container_height}
+						cardInd={cardIndex[SectionInd["Sec_0"]]}
 						isVisible={visibleInd === SectionInd["Sec_0"]}
 						section={"Sec_0"}
-						headHeight={headHeight}
+						headHeight={header_height}
 					/>
 					<LineGraph
-						width={width}
-						height={height}
+						width={container_width}
+						height={container_height}
 						data={raw_data}
-						cardInd={cardInd[SectionInd["Sec_1"]]}
+						cardInd={cardIndex[SectionInd["Sec_1"]]}
 						isVisible={visibleInd === SectionInd["Sec_1"]}
 						section={"Sec_1"}
-						headHeight={headHeight}
+						headHeight={header_height}
 					/>
 					<HorzBarGraph
-						width={width}
-						height={height}
+						width={container_width}
+						height={container_height}
 						data={raw_data}
-						cardInd={cardInd[SectionInd["Sec_2"]]}
+						cardInd={cardIndex[SectionInd["Sec_2"]]}
 						isVisible={visibleInd === SectionInd["Sec_2"]}
 						section={"Sec_2"}
-						headHeight={headHeight}
+						headHeight={header_height}
 					/>
 				</div>
 
