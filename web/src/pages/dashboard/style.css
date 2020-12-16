@@ -370,7 +370,7 @@ body {
 }
 #vis {
     position: sticky;
-    top: 170px;
+    top: 180px;
     z-index: 1;
     margin-left: 21.5%;
     overflow: visible;

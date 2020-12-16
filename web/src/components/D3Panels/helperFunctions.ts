@@ -313,43 +313,43 @@ export function highlightLine({ data,
 
 	// console.log('data', data)
 	selection.selectAll('.' + className)
-		.data(data, (d, i) => i)
+		.data(data)
 		.join(
 			enter => enter.append('circle')
 				.attr('class', className)
 				.attr('id', id)
 				.attr('opacity', 1)
-				.attr("cx", (d: any) => {
+				.attr("cx", (d) => {
 					if (month) {
-						// console.log('here', d)
+						console.log('here', d)
 						let ind = d[0].indexOf('#')
 						if (ind == -1) {
 							ind = d[0].length
 						}
-						return bandScale(new Date(2020, d[0].slice(0, ind), 1))
+						return bandScale(new Date(2020, Number(d[0].slice(0, ind)), 1))
 					}
 					else if (!month) {
 						return bandScale(d[0]);
 					}
 				})
-				.attr("cy", (d: any) => { return linearScale(d[1]); })
+				.attr("cy", (d) => { return linearScale(d[1]); })
 				.call(s => s.transition(t)
 					.attr('r', 5)),
 			update => update
 				.call(s => s.transition(t)
-					.attr("cx", (d: any) => {
+					.attr("cx", (d) => {
 						if (month) {
 							let ind = d[0].indexOf('#')
 							if (ind == -1) {
 								ind = d[0].length
 							}
-							return bandScale(new Date(2020, d[0].slice(0, ind), 1))
+							return bandScale(new Date(2020, Number(d[0].slice(0, ind)), 1))
 						}
 						else {
 							return bandScale(d[0]);
 						}
 					})
-					.attr("cy", (d: any) => { return linearScale(d[1]); })
+					.attr("cy", (d) => { return linearScale(d[1]); })
 					.attr('opacity', 1)
 					.attr('r', 5)),
 			exit => exit
@@ -367,24 +367,26 @@ export function highlightLine({ data,
 	generateElements([['tbody', 1]], 'tbody', table, 'tbody')
 	const tableBody = table.selectAll(".tbody")
 
+
 	selection.selectAll('.' + className)
-		.on('mouseover', (d: any) => {
-			// console.log('wtf', d.path[0].__data__)
-			changeRadius( d.path[0].__data__)
-			showtip( d.path[0].__data__, tooltipTable, tableBody)
+		//@ts-ignore
+		.on('mouseover', (event, d: [string, number]) => {
+			// console.log('wtf', d)
+			changeRadius(d)
+			showtip( d, tooltipTable, tableBody)
 			tooltip.style("left", () => {
 				if (month) {
-					let ind =  d.path[0].__data__[0].indexOf('#')
+					let ind =  d[0].indexOf('#')
 					if (ind == -1) {
-						ind =  d.path[0].__data__[0].length
+						ind =  d[0].length
 					}
-					return (bandScale(new Date(2020,  d.path[0].__data__[0].slice(0, ind), 1)) - 20 + "px")
+					return (bandScale(new Date(2020,  Number(d[0].slice(0, ind)), 1)) - 20 + "px")
 				}
 				else {
-					return (bandScale( d.path[0].__data__[0]) - 20 + "px")
+					return (bandScale( d[0]) - 20 + "px")
 				}
 			})
-				.style("top", linearScale( d.path[0].__data__[1]) + 85 + "px")
+				.style("top", linearScale( d[1]) + 85 + "px")
 				.style('display', 'block');
 		})
 		.on("mouseout", () => {
@@ -394,7 +396,7 @@ export function highlightLine({ data,
 				.style('fill', mOutColor)
 		})
 
-	const changeRadius = (d: any) => {
+	const changeRadius = (d: [string,number]) => {
 		d3.selectAll('.' + className)
 			.attr("r", (e) => { let temp; (d === e) ? temp = 12 : temp = 7; return temp })
 			.style("fill", (e) => { let temp; (d === e) ? temp = color : temp = mOutColor; return temp })
@@ -435,11 +437,12 @@ export function highlightBar({
 	const tableBody = table.selectAll(".tbody")
 
 	selection.selectAll('.' + className)
-		.on('mouseover', (d: any) => {
+		//@ts-ignore
+		.on('mouseover', (event, d: [string, number]) => {
 			// console.log('bar', d.path[0].__data__[0])
-			showtip(d.path[0].__data__, tooltipTable, tableBody)
-			tooltip.style("left", linearScale(d.path[0].__data__[1]) + margin.left + 5 + "px")
-				.style("top", bandScale(d.path[0].__data__[0]) + margin.top + "px")
+			showtip(d, tooltipTable, tableBody)
+			tooltip.style("left", linearScale(d[1]) + margin.left + 5 + "px")
+				.style("top", bandScale(d[0]) + margin.top + "px")
 				.style('display', 'block');
 		})
 		.on("mouseout", () => {
@@ -466,7 +469,7 @@ export function highlightVertBar({
 	const tableBody = table.selectAll(".tbody")
 
 	selection.selectAll('.' + className)
-		.on('mouseover', (d: any) => {
+		.on('mouseover', (event, d: any) => {
 			showtip(Object.values(d), tooltipTable, tableBody)
 			tooltip.style("top", linearScale(linearScale.domain()[0] + Object.values(d)[1]) + "px")
 				.style("left", bandScale(Object.values(d)[0]) + translate + margin.left + 15 + "px")
