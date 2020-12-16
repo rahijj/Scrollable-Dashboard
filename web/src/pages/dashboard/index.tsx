@@ -25,7 +25,9 @@ const Dashboard: React.FunctionComponent<P> = (props) => {
 	const [y, setY] = useState(250)
 	const [visibleInd, setVisibleInd] = useState(-1)
 	const [orient, setOrient] = useState("0")
-	const [cardInd, setCardInd] = useState([-1, -1, -1])
+	/*The Index of cardInd specifies the section, and the value specifies the card number
+	 active for that section.*/
+	const [cardInd, setCardInd]: [number[], Function] = useState([])
 
 	//SectionInd MUST be in same Order as Order of Sections in d3-main div below
 	const SectionInd: Record<string, number> = {

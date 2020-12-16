@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from "react"
+import React, { useEffect, useState } from "react"
 import * as d3 from "d3"
 import * as helper from "../helperFunctions"
 import { max, min } from "d3"
@@ -59,8 +59,8 @@ const LineGraph: React.FC<P> = ({
 			let filt = ""
 
 			/* This for loop decides if and how the split by filter should split the data into
-			different lines simultaneously displayed on a graph.
-			It also sets  the title and legends for that selected filter. */
+            different lines simultaneously displayed on a graph.
+            It also sets  the title and legends for that selected filter. */
 
 			for (let i = 0; i < filter_List.filters.length; i++) {
 				filt = filter_List.filters[i]

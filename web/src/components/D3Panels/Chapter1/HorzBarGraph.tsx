@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import React, { useEffect, useState } from "react"
 import * as d3 from "d3"
 import { max } from "d3"
@@ -30,8 +31,8 @@ const HorzBarGraph: React.FC<P> = ({
 
 	function HorzBar(index: number) {
 		const order_by_ordering = (
-			[a1, k1]: [any, number],
-			[a2, k2]: [any, number]
+			[, k1]: [any, number],
+			[, k2]: [any, number]
 		) => k2 - k1
 		const g = d3.select("#HorzBarSVG")
 		const t = g.transition().duration(650)

@@ -368,17 +368,17 @@ body {
 	transition: all 0.4s ease-in-out;
 }
 #vis {
-    position: sticky;
-    top: 180px;
-    z-index: 1;
-    margin-left: 21.5%;
-    overflow: visible;
-    background-color: #fafafa;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    flex-direction: column;
-    /* height: calc(100vh - 100px); */
+	position: sticky;
+	top: 180px;
+	z-index: 1;
+	margin-left: 21.5%;
+	overflow: visible;
+	background-color: #fafafa;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	flex-direction: column;
+	/* height: calc(100vh - 100px); */
 }
 
 svg {
@@ -397,80 +397,6 @@ svg {
 
 .BarGraph:hover {
 	fill: #daa520;
-}
-
-.BarFoodGroup {
-	fill: #676767;
-}
-
-.BarFoodGroup:hover {
-	fill: #daa520;
-}
-
-.BarFoodGroupU {
-	fill: #676767;
-}
-
-.BarFoodGroupU:hover {
-	fill: #daa520;
-}
-
-#BarFood1 {
-	fill: #344a62;
-}
-
-#BarFood1:hover {
-	fill: #ae8723;
-}
-
-.LostJobsBar {
-	fill: #b33040;
-	opacity: 0.8;
-}
-
-.LostJobsBar:hover {
-	fill: #ff001e;
-	opacity: 1;
-}
-
-.BorrowedMoneyBar {
-	fill: #248415;
-	opacity: 0.8;
-}
-
-.BorrowedMoneyBar:hover {
-	fill: #0dff00;
-	opacity: 1;
-}
-
-.tableBorrow {
-	border-collapse: collapse;
-	width: 100%;
-}
-
-.tableBorrow td,
-.tableBorrow th {
-	border: 1px solid #ddd;
-	padding: 8px;
-	white-space: pre;
-	/* font-size: 13px; */
-}
-
-.tableBorrow tr:nth-child(even) {
-	background-color: #f2f2f2;
-}
-
-.tableBorrow tr:hover {
-	background-color: #ddd;
-}
-
-.tableBorrow th {
-	padding-top: 12px;
-	padding-bottom: 12px;
-	text-align: left;
-	background-color: var(--navy);
-	color: white;
-	font-size: 17px;
 }
 
 #Point {
@@ -705,20 +631,6 @@ svg {
 	border-radius: 3px;
 	background-color: #fafafa;
 	padding: 2px;
-}
-
-#NoneRDD.None {
-	color: #fafafa;
-	transition: all 0.4s ease-in-out;
-	font-weight: 900;
-	background-color: rgb(87, 182, 78);
-}
-
-#RDD.RDD {
-	color: #fafafa;
-	transition: all 0.4s ease-in-out;
-	font-weight: 900;
-	background-color: rgb(87, 182, 78);
 }
 
 .Filter_Button {

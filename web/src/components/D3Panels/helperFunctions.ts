@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import * as d3 from "d3"
 
 // Generates as many d3 elements as there are items in the passedData list.
@@ -358,7 +359,6 @@ export function highlightLine({
 	const t = selection.transition().duration(1100)
 
 	// console.log('data', data)
-<<<<<<< HEAD
 	selection.selectAll('.' + className)
 		.data(data)
 		.join(
@@ -368,7 +368,7 @@ export function highlightLine({
 				.attr('opacity', 1)
 				.attr("cx", (d) => {
 					if (month) {
-						console.log('here', d)
+						// console.log('here', d)
 						let ind = d[0].indexOf('#')
 						if (ind == -1) {
 							ind = d[0].length
@@ -385,26 +385,12 @@ export function highlightLine({
 			update => update
 				.call(s => s.transition(t)
 					.attr("cx", (d) => {
-=======
-	selection
-		.selectAll("." + className)
-		.data(data, (d, i) => i)
-		.join(
-			(enter) =>
-				enter
-					.append("circle")
-					.attr("class", className)
-					.attr("id", id)
-					.attr("opacity", 1)
-					.attr("cx", (d: any) => {
->>>>>>> e471c110122d38e2ecb2be8551a4e4cee77e1e3b
 						if (month) {
 							// console.log('here', d)
 							let ind = d[0].indexOf("#")
 							if (ind == -1) {
 								ind = d[0].length
 							}
-<<<<<<< HEAD
 							return bandScale(new Date(2020, Number(d[0].slice(0, ind)), 1))
 						}
 						else {
@@ -419,49 +405,6 @@ export function highlightLine({
 				.transition().duration(200)
 				.attr('r', 0)
 				.remove(),
-=======
-							return bandScale(
-								new Date(2020, d[0].slice(0, ind), 1)
-							)
-						} else if (!month) {
-							return bandScale(d[0])
-						}
-					})
-					.attr("cy", (d: any) => {
-						return linearScale(d[1])
-					})
-					.call((s) => s.transition(t).attr("r", 5)),
-			(update) =>
-				update.call((s) =>
-					s
-						.transition(t)
-						.attr("cx", (d: any) => {
-							if (month) {
-								let ind = d[0].indexOf("#")
-								if (ind == -1) {
-									ind = d[0].length
-								}
-								return bandScale(
-									new Date(2020, d[0].slice(0, ind), 1)
-								)
-							} else {
-								return bandScale(d[0])
-							}
-						})
-						.attr("cy", (d: any) => {
-							return linearScale(d[1])
-						})
-						.attr("opacity", 1)
-						.attr("r", 5)
-				),
-			(exit) =>
-				exit
-					// .attr('width', 0)
-					.transition()
-					.duration(200)
-					.attr("r", 0)
-					.remove()
->>>>>>> e471c110122d38e2ecb2be8551a4e4cee77e1e3b
 		)
 
 	generateElements(
@@ -476,8 +419,6 @@ export function highlightLine({
 	//@ts-ignore
 	generateElements([["tbody", 1]], "tbody", table, "tbody")
 	const tableBody = table.selectAll(".tbody")
-
-<<<<<<< HEAD
 
 	selection.selectAll('.' + className)
 		//@ts-ignore
@@ -499,38 +440,6 @@ export function highlightLine({
 			})
 				.style("top", linearScale( d[1]) + 85 + "px")
 				.style('display', 'block');
-=======
-	selection
-		.selectAll("." + className)
-		.on("mouseover", (d: any) => {
-			// console.log('wtf', d.path[0].__data__)
-			changeRadius(d.path[0].__data__)
-			showtip(d.path[0].__data__, tooltipTable, tableBody)
-			tooltip
-				.style("left", () => {
-					if (month) {
-						let ind = d.path[0].__data__[0].indexOf("#")
-						if (ind == -1) {
-							ind = d.path[0].__data__[0].length
-						}
-						return (
-							bandScale(
-								new Date(
-									2020,
-									d.path[0].__data__[0].slice(0, ind),
-									1
-								)
-							) -
-							20 +
-							"px"
-						)
-					} else {
-						return bandScale(d.path[0].__data__[0]) - 20 + "px"
-					}
-				})
-				.style("top", linearScale(d.path[0].__data__[1]) + 85 + "px")
-				.style("display", "block")
->>>>>>> e471c110122d38e2ecb2be8551a4e4cee77e1e3b
 		})
 		.on("mouseout", () => {
 			tooltip.style("display", "none")
@@ -540,26 +449,11 @@ export function highlightLine({
 				.style("fill", mOutColor)
 		})
 
-<<<<<<< HEAD
 	const changeRadius = (d: [string,number]) => {
 		d3.selectAll('.' + className)
 			.attr("r", (e) => { let temp; (d === e) ? temp = 12 : temp = 7; return temp })
 			.style("fill", (e) => { let temp; (d === e) ? temp = color : temp = mOutColor; return temp })
 
-=======
-	const changeRadius = (d: any) => {
-		d3.selectAll("." + className)
-			.attr("r", (e) => {
-				let temp
-				d === e ? (temp = 12) : (temp = 7)
-				return temp
-			})
-			.style("fill", (e) => {
-				let temp
-				d === e ? (temp = color) : (temp = mOutColor)
-				return temp
-			})
->>>>>>> e471c110122d38e2ecb2be8551a4e4cee77e1e3b
 	}
 }
 
@@ -600,7 +494,6 @@ export function highlightBar({
 	generateElements([["tbody", 1]], "tbody", table, "tbody")
 	const tableBody = table.selectAll(".tbody")
 
-<<<<<<< HEAD
 	selection.selectAll('.' + className)
 		//@ts-ignore
 		.on('mouseover', (event, d: [string, number]) => {
@@ -609,23 +502,6 @@ export function highlightBar({
 			tooltip.style("left", linearScale(d[1]) + margin.left + 5 + "px")
 				.style("top", bandScale(d[0]) + margin.top + "px")
 				.style('display', 'block');
-=======
-	selection
-		.selectAll("." + className)
-		.on("mouseover", (d: any) => {
-			// console.log('bar', d.path[0].__data__[0])
-			showtip(d.path[0].__data__, tooltipTable, tableBody)
-			tooltip
-				.style(
-					"left",
-					linearScale(d.path[0].__data__[1]) + margin.left + 5 + "px"
-				)
-				.style(
-					"top",
-					bandScale(d.path[0].__data__[0]) + margin.top + "px"
-				)
-				.style("display", "block")
->>>>>>> e471c110122d38e2ecb2be8551a4e4cee77e1e3b
 		})
 		.on("mouseout", () => {
 			tooltip.style("display", "none")
@@ -655,14 +531,8 @@ export function highlightVertBar({
 	generateElements([["tbody", 1]], "tbody", table, "tbody")
 	const tableBody = table.selectAll(".tbody")
 
-<<<<<<< HEAD
 	selection.selectAll('.' + className)
 		.on('mouseover', (event, d: any) => {
-=======
-	selection
-		.selectAll("." + className)
-		.on("mouseover", (d: any) => {
->>>>>>> e471c110122d38e2ecb2be8551a4e4cee77e1e3b
 			showtip(Object.values(d), tooltipTable, tableBody)
 			tooltip
 				.style(
