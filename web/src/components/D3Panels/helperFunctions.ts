@@ -427,7 +427,7 @@ export function highlightLine({
 	generateElements(
 		[["tooltip", 1]],
 		tooltipClass,
-		d3.selectAll("#vis"),
+		d3.selectAll(".vis"),
 		"div"
 	)
 	const tooltip = d3.selectAll("." + tooltipClass).style("display", "none")
@@ -515,7 +515,7 @@ export function highlightBar({
 	generateElements(
 		[["tooltip", 1]],
 		tooltipClass,
-		d3.selectAll("#vis"),
+		d3.selectAll(".vis"),
 		"div"
 	)
 	const tooltip = d3.selectAll("." + tooltipClass).style("display", "none")
@@ -554,7 +554,7 @@ export function highlightVertBar({
 	generateElements(
 		[["tooltip", 1]],
 		tooltipClass,
-		d3.selectAll("#vis"),
+		d3.selectAll(".vis"),
 		"div"
 	)
 	const tooltip = d3.selectAll("." + tooltipClass).style("display", "none")
@@ -761,7 +761,7 @@ export function makeLineMonth({
 	const t = gLinks.transition().delay(750).duration(500)
 	let data: [string, number][][]
 	type == "Exp" ? (data = passedExpList) : (data = passedList)
-	type == "Exp" ? (className = "LineExpected") : (className = "LineGraph")
+	type == "Exp" ? (className = "LineExpected") : (className = "LineNorm")
 
 	gLinks
 		.selectAll("." + className)

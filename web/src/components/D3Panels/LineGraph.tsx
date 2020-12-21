@@ -1,24 +1,14 @@
 import React, { useEffect, useState } from "react"
 import * as d3 from "d3"
-import * as helper from "../helperFunctions"
+import * as helper from "./helperFunctions"
 import { max, min } from "d3"
 
-interface P {
-	width: number
-	height: number
-	cardInd: number
-	data: any
-	isVisible: boolean
-	section: string
-	headHeight: number
-}
-const LineGraph: React.FC<P> = ({
+const LineGraph: React.FC<SectionProps> = ({
 	width,
 	height,
 	data,
 	cardInd,
 	isVisible,
-	section,
 	headHeight,
 }) => {
 	const [filter_val, set_filter] = useState("Overall")
@@ -48,7 +38,7 @@ const LineGraph: React.FC<P> = ({
 
 		const yLabel = "yLabel"
 		const xLabel = "xLabel"
-		const g = d3.select("#LineSVG")
+		const g = d3.select(".LineSVG")
 		const gNodes = g.select(".nodes")
 		const gLinks = g.select(".links")
 
@@ -243,7 +233,7 @@ const LineGraph: React.FC<P> = ({
 	}
 
 	const scrollVis = (index: number) => {
-		const g = d3.select("#LineSVG")
+		const g = d3.select(".LineSVG")
 
 		helper.createGrid(g, innerHeight)
 		helper.createAxis(g, innerHeight)
@@ -254,7 +244,7 @@ const LineGraph: React.FC<P> = ({
 		Line(index)
 	}
 
-	const pan = d3.select("." + section)
+	const pan = d3.select("#LineGraph")
 
 	useEffect(() => {
 		if (cardInd === 1) {
@@ -296,12 +286,12 @@ const LineGraph: React.FC<P> = ({
 				return i === cardInd ? 1 : 0.3
 			})
 
-			d3.select("#LineSVG").style("opacity", 1)
+			d3.select(".LineSVG").style("opacity", 1)
 			scrollVis(cardInd)
 		} else {
 			pan.selectAll(".card").style("opacity", 0.4)
 
-			d3.select("#LineSVG").style("opacity", 0.4)
+			d3.select(".LineSVG").style("opacity", 0.4)
 		}
 		set_graphic(999)
 	}, [
@@ -317,16 +307,13 @@ const LineGraph: React.FC<P> = ({
 
 	return (
 		<div
-			id="LineTemp"
+			id="LineGraph"
 			className="section"
 			style={{
 				width: `${width}`,
 				height: `${(height + headHeight) * 4}px`,
 			}}>
-			<div
-				id="graphic"
-				className={section}
-				style={{ zIndex: graphicFilter }}>
+			<div className={"graphic"} style={{ zIndex: graphicFilter }}>
 				<div className="card">
 					<div className="content">
 						Lorem ipsum dolor sit amet, consectetur adipiscing elit.
@@ -346,9 +333,9 @@ const LineGraph: React.FC<P> = ({
 					</div>
 				</div>
 			</div>
-			<div id="vis" style={{ height: height }}>
+			<div className="vis" style={{ height: height }}>
 				<svg width={width} height={height}>
-					<g id="LineSVG" />
+					<g className="LineSVG" />
 				</svg>
 			</div>
 		</div>

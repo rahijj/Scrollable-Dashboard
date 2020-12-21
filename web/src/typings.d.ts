@@ -4,8 +4,8 @@ type SectionProps = {
 	width: number
 	height: number
 	cardInd: number
+	data: any
 	isVisible: boolean
-	section: string
 	headHeight: number
 }
 

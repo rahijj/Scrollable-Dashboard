@@ -332,7 +332,7 @@ body {
 	margin: 10px;
 }
 
-#graphic {
+.graphic {
 	width: 21.5%;
 	margin-left: 0.5%;
 	position: absolute;
@@ -367,7 +367,7 @@ body {
 #SecTemp1SVG {
 	transition: all 0.4s ease-in-out;
 }
-#vis {
+.vis {
 	position: sticky;
 	top: 175px;
 	z-index: 1;
@@ -424,11 +424,11 @@ svg {
 	opacity: 0.2;
 }
 
-.LineGraph {
+.LineNorm {
 	stroke: #344a62;
 }
 
-#LineGraph {
+#LineNorm {
 	stroke-width: 3;
 }
 
@@ -905,15 +905,15 @@ svg {
 		display: block;
 		top: 26.5px;
 	}
-	#graphic {
+	.graphic {
 		width: 75%;
 		margin: 0 12.5%;
 		pointer-events: none;
 	}
-	#vis {
+	.vis {
 		display: flex;
 		margin-left: 0;
-		top: 68px;
+		top: 81px;
 		width: 99.6%;
 		align-items: center;
 		/* height: calc(100vh - 58px); */

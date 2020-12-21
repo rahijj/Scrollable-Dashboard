@@ -2,25 +2,14 @@
 import React, { useEffect, useState } from "react"
 import * as d3 from "d3"
 import { max } from "d3"
-import * as helper from "../helperFunctions"
+import * as helper from "./helperFunctions"
 
-interface P {
-	width: number
-	height: number
-	cardInd: number
-	data: any
-	isVisible: boolean
-	section: string
-	headHeight: number
-}
-
-const HorzBarGraph: React.FC<P> = ({
+const HorzBarGraph: React.FC<SectionProps> = ({
 	width,
 	height,
 	data,
 	cardInd,
 	isVisible,
-	section,
 	headHeight,
 }) => {
 	const margin = { top: 60, right: 20, bottom: 60, left: 60 }
@@ -34,7 +23,7 @@ const HorzBarGraph: React.FC<P> = ({
 			[, k1]: [any, number],
 			[, k2]: [any, number]
 		) => k2 - k1
-		const g = d3.select("#HorzBarSVG")
+		const g = d3.select(".HorzBarSVG")
 		const t = g.transition().duration(650)
 
 		const data_obj: Record<string, number> = {
@@ -115,14 +104,14 @@ const HorzBarGraph: React.FC<P> = ({
 	}
 
 	const scrollVis = (index: number) => {
-		const g = d3.select("#HorzBarSVG")
+		const g = d3.select(".HorzBarSVG")
 
 		helper.createAxis(g, innerHeight)
 
 		HorzBar(index)
 	}
 
-	const pan = d3.select("." + section)
+	const pan = d3.select("#HorzBarGraph")
 
 	useEffect(() => {
 		if (isVisible) {
@@ -130,28 +119,25 @@ const HorzBarGraph: React.FC<P> = ({
 				return i === cardInd ? 1 : 0.3
 			})
 
-			d3.select("#HorzBarSVG").style("opacity", 1)
+			d3.select(".HorzBarSVG").style("opacity", 1)
 			scrollVis(cardInd)
 		} else {
 			pan.selectAll(".card").style("opacity", 0.4)
 
-			d3.select("#HorzBarSVG").style("opacity", 0.4)
+			d3.select(".HorzBarSVG").style("opacity", 0.4)
 		}
 		set_graphic(999)
 	}, [isVisible, cardInd, width, height, data, headHeight])
 
 	return (
 		<div
-			id="HorzBarTemp"
+			id="HorzBarGraph"
 			className="section"
 			style={{
 				width: `${width}`,
 				height: `${(height + headHeight) * 3}px`,
 			}}>
-			<div
-				id="graphic"
-				className={section}
-				style={{ zIndex: graphicFilter }}>
+			<div className={"graphic"} style={{ zIndex: graphicFilter }}>
 				<div className="card">
 					<div className="content">
 						Lorem ipsum dolor sit amet, consectetur adipiscing elit.
@@ -165,9 +151,9 @@ const HorzBarGraph: React.FC<P> = ({
 					</div>
 				</div>
 			</div>
-			<div id="vis" style={{ height: height }}>
+			<div className="vis" style={{ height: height }}>
 				<svg width={width} height={height}>
-					<g id="HorzBarSVG" />
+					<g className="HorzBarSVG" />
 				</svg>
 			</div>
 		</div>

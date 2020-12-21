@@ -1,19 +1,21 @@
-import React, { useState } from "react"
-import cl from "/public/cerp-logo.svg"
+import React, { useEffect, useState } from "react"
 interface P {
 	VisibleInd: number
-	SectionInd: Record<string, number>
 }
 
 // TODO: nav open/close should be entirely handled in header, not with props
-const Header: React.FC<P> = ({
-	VisibleInd,
-	SectionInd,
-	openNav,
-	set_openNav,
-	NavBName,
-	set_NavBName,
-}) => {
+const Header: React.FC<P> = ({ VisibleInd }) => {
+	const [openNav, set_openNav] = useState("94px")
+	const [NavBName, set_NavBName] = useState("Navigation")
+	const [isMobile, set_isMobile] = useState(false)
+
+	useEffect(() => {
+		set_isMobile(window.matchMedia("(max-width: 767px)").matches)
+	})
+	useEffect(() => {
+		isMobile ? set_openNav("0vh") : set_openNav("94px")
+	}, [isMobile])
+
 	return (
 		<div className="header">
 			<div className="logo-header-logo">
@@ -22,8 +24,6 @@ const Header: React.FC<P> = ({
 						className="navbar-brand"
 						href="https://www.cerp.org.pk/index.php">
 						<img src="cerp-logo.png" alt="Image Description" />
-						{/* https://www.cerp.org.pk/assets/img/logo/logo-1.png */}
-						{/* https://mischool.pk/static/media/cerp-logo1.1e74dec1.png */}
 					</a>
 					<div className="header-buttons">
 						<ul className="header-list">
@@ -63,14 +63,12 @@ const Header: React.FC<P> = ({
 			</div>
 			<div className="topnav-container">
 				<div className="topnav" style={{ height: openNav }}>
-					<a
-						className={String(VisibleInd === SectionInd["Sec_1"])}
-						href="#LineTemp">
+					<a className={String(VisibleInd === 1)} href="#LineGraph">
 						Line Template
 					</a>
 					<a
-						className={String(VisibleInd === SectionInd["Sec_2"])}
-						href="#HorzBarTemp">
+						className={String(VisibleInd === 2)}
+						href="#HorzBarGraph">
 						Horz Bar Template
 					</a>
 				</div>

@@ -1,33 +1,16 @@
-import * as d3 from "d3"
-
-function scroller(
-	container: d3.Selection<d3.BaseType, unknown, HTMLElement, any>,
-	els: d3.Selection<d3.BaseType, unknown, d3.BaseType, unknown>,
-	y: number
-) {
-	//let sections: d3.Selection<d3.BaseType, unknown, d3.BaseType, unknown>;
+function scroller(container: Element, sections: HTMLCollectionOf<Element>) {
 	const sectionPositions: number[] = []
-	// let containerStart = 0;
-
-	const sections = els
 
 	let startPos = 0
-	sections.each(function (d, i: number) {
-		//@ts-ignore
-		const top = this.getBoundingClientRect().top
-		//@ts-ignore
-		// console.log('TOP', this.getBoundingClientRect(), top)
-		//@ts-ignore
-		// console.log('scroller', this.getBoundingClientRect())
+	const section_len = sections.length
+	for (let i = 0; i < section_len; i++) {
+		const top = sections[i].getBoundingClientRect().top
+		// console.log('TOP', sections[i].getBoundingClientRect(), top)
 		if (i === 0) {
 			startPos = top
 		}
-
 		sectionPositions.push(top - startPos)
-	})
-
-	//@ts-ignore
-	// containerStart = container.node().getBoundingClientRect().top + y;
+	}
 
 	let offset = 200
 
@@ -35,17 +18,11 @@ function scroller(
 		offset = 0
 	}
 
-	// let pos1 = y + offset - containerStart;
 	let pos = 0
-	//@ts-ignore
-	pos = offset - container.node().getBoundingClientRect().top
+	pos = offset - container.getBoundingClientRect().top
 
-	let sectionIndex
-	if (sectionPositions.length === 0) {
-		sectionIndex = 0
-	} else {
-		sectionIndex = 0
-
+	let sectionIndex = 0
+	if (sectionPositions.length !== 0) {
 		if (pos >= sectionPositions[sectionPositions.length - 1]) {
 			sectionIndex = sectionPositions.length - 1
 		} else {
@@ -64,14 +41,8 @@ function scroller(
 	// console.log('pos', pos)
 	// console.log('sec index', sectionIndex)
 	// console.log('Con start', containerStart)
-	//@ts-ignore
-	// console.log('cont top', container.node().getBoundingClientRect().top)
 
 	return sectionIndex
-
-	// let prevIndex = Math.max(sectionIndex - 1, 0);
-	// let prevTop = sectionPositions[prevIndex];
-	// let progress = (pos - prevTop) / (sectionPositions[sectionIndex] - prevTop);
 }
 
 export default scroller

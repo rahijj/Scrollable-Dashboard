@@ -4,8 +4,8 @@ const ColorSection: React.FC<SectionProps> = ({
 	width,
 	height,
 	cardInd,
+	data,
 	isVisible,
-	section,
 	headHeight,
 }) => {
 	const colors = ["grey", "#344a62", "orange"]
@@ -18,7 +18,7 @@ const ColorSection: React.FC<SectionProps> = ({
 				width: `${width}`,
 				height: `${(height + headHeight) * 4}px`,
 			}}>
-			<div id="graphic" className={section}>
+			<div className={"graphic"}>
 				<div className="card">
 					<div className="content">Grey</div>
 				</div>
@@ -30,9 +30,10 @@ const ColorSection: React.FC<SectionProps> = ({
 				</div>
 			</div>
 			<div
-				id="vis"
+				className="vis"
 				style={{
 					height: height,
+					width: width,
 					backgroundColor: colors[cardInd],
 					transition: "all .3s ease-in",
 				}}
