@@ -40,7 +40,7 @@ const Dashboard: React.FunctionComponent<P> = (props) => {
 				than 30%.*/
 				if (
 					(window.innerHeight - height) / height > 0.05 ||
-					(height - window.innerHeight) / height > 0.1
+					(height - window.innerHeight) / height > 0.2
 				) {
 					setHeight(window.innerHeight)
 				}
@@ -81,14 +81,12 @@ const Dashboard: React.FunctionComponent<P> = (props) => {
 	const section_components = [LineGraph, ColorSection, HorzBarGraph]
 
 	return (
-		<div className="main">
+		<div className="main bg-gray-50 w-full flex flex-col">
 			<Header VisibleInd={visibleInd} />
 
-			<div className="d3-main">
+			<div className="d3-main bg-gray-50 w-full flex flex-col">
 				<Loading loading={false} />
-				<div
-					className="GraphsDiv"
-					style={{ width: "100%", display: "block" }}>
+				<div className="w-full block">
 					{section_components.map((S, i) => (
 						<S
 							key={i}
@@ -102,9 +100,12 @@ const Dashboard: React.FunctionComponent<P> = (props) => {
 					))}
 				</div>
 
-				<div className="footer">
+				<div className="footer h-12 items-center flex ml-auto mt-3">
 					<a href="https://labs.cerp.org.pk">
-						<img src="https://labs.cerp.org.pk/public/labs-grey-oswald.png" />
+						<img
+							className="h-12 w-auto p-3"
+							src="https://labs.cerp.org.pk/public/labs-grey-oswald.png"
+						/>
 					</a>
 				</div>
 			</div>

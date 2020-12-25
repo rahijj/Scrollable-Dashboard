@@ -2,6 +2,10 @@
 @tailwind components;
 @tailwind utilities;
 
+:root {
+	--navy: #344a62;
+	--bright-blue: #28c4f8;
+}
 body {
 	margin: 0;
 	padding: 0;
@@ -16,6 +20,8 @@ html,
 body,
 #root {
 	height: 100%;
+	font-size: 14px;
+	scroll-behavior: smooth;
 }
 
 code {
@@ -24,6 +30,21 @@ code {
 }
 
 @layer components {
+	.section {
+		@apply w-full mt-0 md:flex justify-center;
+	}
+	.vis {
+		@apply sticky ml-21.5% md:ml-0 md:w-full bg-gray-50 flex flex-col items-center justify-center overflow-visible;
+	}
+	.graphic {
+		@apply w-21.5% md:w-full ml-0.5% md:my-0 md:mx-4 md:pointer-events-none absolute overflow-hidden z-10;
+	}
+	.card {
+		@apply h-95vh md:h-full md:mt-88vh md:pointer-events-auto flex items-center justify-center;
+	}
+	.card-content {
+		@apply border border-black text-black text-center w-full md:w-4/5 py-8 md:py-3 px-1 bg-white overflow-auto;
+	}
 	.btn {
 		@apply py-2 px-4 font-semibold rounded-lg shadow-md focus:outline-none focus:ring-2 focus:ring-opacity-75;
 	}
@@ -34,5 +55,35 @@ code {
 
 	.btn-red {
 		@apply bg-red-500 hover:bg-red-700 text-white focus:ring-red-400;
+	}
+}
+
+@layer utilities {
+	.text-blue-bright,
+	.hover\:text-blue-bright:hover {
+		color: var(--bright-blue);
+	}
+	.bg-navy {
+		background-color: var(--navy);
+	}
+	.ml-21\.5\% {
+		margin-left: 21.5%;
+	}
+	.ml-0\.5\% {
+		margin-left: 0.5%;
+	}
+	.w-21\.5\% {
+		width: 21.5%;
+	}
+	.h-95vh {
+		height: 95vh;
+	}
+	.loader {
+		border-top-color: black;
+	}
+	@media (max-width: 767px) {
+		.md\:mt-88vh {
+			margin-top: 88vh;
+		}
 	}
 }

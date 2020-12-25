@@ -20,24 +20,31 @@ const ColorSection: React.FC<SectionProps> = ({
 			}}>
 			<div className={"graphic"}>
 				<div className="card">
-					<div className="content">Grey</div>
+					<div className="card-content">Grey</div>
 				</div>
 				<div className="card">
-					<div className="content">Blue</div>
+					<div className="card-content">Blue</div>
 				</div>
 				<div className="card">
-					<div className="content">Orange</div>
+					<div className="card-content">Orange</div>
 				</div>
 			</div>
 			<div
 				className="vis"
 				style={{
 					height: height,
-					width: width,
-					backgroundColor: colors[cardInd],
-					transition: "all .3s ease-in",
-				}}
-			/>
+					top: headHeight,
+				}}>
+				<svg
+					className={
+						"border border-black transition duration-300 flex overflow-visible"
+					}
+					width={width}
+					height={height}
+					style={{
+						backgroundColor: colors[cardInd],
+					}}></svg>
+			</div>
 		</div>
 	)
 }

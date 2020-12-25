@@ -13,7 +13,6 @@ const HorzBarGraph: React.FC<SectionProps> = ({
 	headHeight,
 }) => {
 	const margin = { top: 60, right: 20, bottom: 60, left: 60 }
-	const [graphicFilter, set_graphic] = useState(999)
 
 	const innerWidth = width - margin.left - margin.right
 	const innerHeight = height - margin.top - margin.bottom
@@ -126,7 +125,6 @@ const HorzBarGraph: React.FC<SectionProps> = ({
 
 			d3.select(".HorzBarSVG").style("opacity", 0.4)
 		}
-		set_graphic(999)
 	}, [isVisible, cardInd, width, height, data, headHeight])
 
 	return (
@@ -137,22 +135,27 @@ const HorzBarGraph: React.FC<SectionProps> = ({
 				width: `${width}`,
 				height: `${(height + headHeight) * 3}px`,
 			}}>
-			<div className={"graphic"} style={{ zIndex: graphicFilter }}>
+			<div className={"graphic"}>
 				<div className="card">
-					<div className="content">
+					<div className="card-content">
 						Lorem ipsum dolor sit amet, consectetur adipiscing elit.
 						Duis facilisis suscipit dui accumsan mattis.
 					</div>
 				</div>
 				<div className="card">
-					<div className="content">
+					<div className="card-content">
 						Lorem ipsum dolor sit amet, consectetur adipiscing elit.
 						Duis facilisis suscipit dui accumsan mattis.
 					</div>
 				</div>
 			</div>
-			<div className="vis" style={{ height: height }}>
-				<svg width={width} height={height}>
+			<div className="vis" style={{ height: height, top: headHeight }}>
+				<svg
+					className={
+						"border border-black transition duration-300 flex overflow-visible"
+					}
+					width={width}
+					height={height}>
 					<g className="HorzBarSVG" />
 				</svg>
 			</div>
