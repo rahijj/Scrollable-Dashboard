@@ -26,6 +26,59 @@ export function generateElements(
 					.remove()
 		)
 }
+export function generateTooltip(
+	passedData: [string, any][],
+	className: string,
+	selection: d3.Selection<d3.BaseType, unknown, HTMLElement, any>,
+	element = "rect"
+) {
+	// const t = selection.transition().duration(900);
+	selection
+		.selectAll("." + className)
+		.data(passedData, (d, i) => i)
+		.join(
+			(enter) =>
+				enter
+					.append(element)
+					.attr(
+						"class",
+						className +
+							" font-bold absolute bg-black opacity-50 p-3 rounded-xl pointer-events-none animate-float"
+					)
+					.attr("opacity", 0.9),
+			(update) => update,
+
+			(exit) => exit.remove()
+		)
+}
+export function generateHorzBars(
+	passedData: [string, any][],
+	className: string,
+	selection: d3.Selection<d3.BaseType, unknown, HTMLElement, any>,
+	element = "rect"
+) {
+	// const t = selection.transition().duration(900);
+	selection
+		.selectAll("." + className)
+		.data(passedData, (d, i) => i)
+		.join(
+			(enter) =>
+				enter
+					.append(element)
+					.attr(
+						"class",
+						className +
+							" fill-current text-cerp-navy hover:text-yellow-500"
+					)
+					.attr("opacity", 0.9),
+			(update) => update,
+
+			(exit) =>
+				exit
+					// .attr('width', 0)
+					.remove()
+		)
+}
 export function generateVertBars(
 	passedData: [string, any][],
 	className: string,
@@ -178,7 +231,15 @@ export function plotTitle(
 	let i = 0
 	classes.forEach((e) => {
 		if (selection.select("." + e).empty()) {
-			selection.append("text").attr("class", e).attr("id", "plotTitle")
+			selection
+				.append("text")
+				.attr(
+					"class",
+					e +
+						" fill-current text-black text-base font-extrabold text-center whitespace-pre"
+				)
+				.attr("text-anchor", "middle")
+				.attr("id", "plotTitle")
 		}
 
 		selection
@@ -202,7 +263,10 @@ export function createAxis(
 	if (selection.select(".yAxis").empty()) {
 		selection.append("g").attr("class", "yAxis")
 
-		selection.append("text").attr("class", "yLabel")
+		selection
+			.append("text")
+			.attr("class", "yLabel fill-current text-black")
+			.attr("text-anchor", "middle")
 	}
 	if (selection.select(".xAxis").empty()) {
 		selection
@@ -210,7 +274,10 @@ export function createAxis(
 			.attr("class", "xAxis")
 			.attr("transform", `translate(0,${innerHeight})`)
 
-		selection.append("text").attr("class", "xLabel")
+		selection
+			.append("text")
+			.attr("class", "xLabel fill-current text-black")
+			.attr("text-anchor", "middle")
 	} else {
 		selection
 			.select(".xAxis")
@@ -282,7 +349,7 @@ export function showtip(
 	tableBody: any
 ) {
 	const match = d[0]
-	// console.log('tip', d, tooltipTable)
+	console.log("tip", d, tooltipTable)
 	if (match in tooltipTable) {
 		let check = 0
 		const rowList = Object.entries(tooltipTable[match])
@@ -366,7 +433,11 @@ export function highlightLine({
 			(enter) =>
 				enter
 					.append("circle")
-					.attr("class", className)
+					.attr(
+						"class",
+						className +
+							" fill-current text-gray-500 hover:text-yellow-500"
+					)
 					.attr("id", id)
 					.attr("opacity", 1)
 					.attr("cx", (d) => {
@@ -424,12 +495,8 @@ export function highlightLine({
 					.remove()
 		)
 
-	generateElements(
-		[["tooltip", 1]],
-		tooltipClass,
-		d3.selectAll(".vis"),
-		"div"
-	)
+	generateTooltip([["tooltip", 1]], tooltipClass, d3.selectAll(".vis"), "div")
+
 	const tooltip = d3.selectAll("." + tooltipClass).style("display", "none")
 	generateElements([["table", 1]], "table", tooltip, "table")
 	const table = tooltip.selectAll(".table")
@@ -440,9 +507,9 @@ export function highlightLine({
 	selection
 		.selectAll("." + className)
 		//@ts-ignore
-		.on("mouseover", (event, d: [string, number]) => {
-			// console.log('wtf', d)
-			changeRadius(d)
+		.on("mouseover", function (this: any, event, d: [string, number]) {
+			d3.select(this).attr("r", 12)
+
 			showtip(d, tooltipTable, tableBody)
 			tooltip
 				.style("left", () => {
@@ -465,27 +532,10 @@ export function highlightLine({
 				.style("top", linearScale(d[1]) + 85 + "px")
 				.style("display", "block")
 		})
-		.on("mouseout", () => {
+		.on("mouseout", function (this: any) {
 			tooltip.style("display", "none")
-			selection
-				.selectAll("." + className)
-				.attr("r", 5)
-				.style("fill", mOutColor)
+			d3.select(this).attr("r", 5)
 		})
-
-	const changeRadius = (d: [string, number]) => {
-		d3.selectAll("." + className)
-			.attr("r", (e) => {
-				let temp
-				d === e ? (temp = 12) : (temp = 7)
-				return temp
-			})
-			.style("fill", (e) => {
-				let temp
-				d === e ? (temp = color) : (temp = mOutColor)
-				return temp
-			})
-	}
 }
 
 interface highlightBarType {
@@ -512,12 +562,7 @@ export function highlightBar({
 	tooltipTable = { Value: { Value: "0 " } },
 	tooltipClass = "tooltip",
 }: highlightBarType) {
-	generateElements(
-		[["tooltip", 1]],
-		tooltipClass,
-		d3.selectAll(".vis"),
-		"div"
-	)
+	generateTooltip([["tooltip", 1]], tooltipClass, d3.selectAll(".vis"), "div")
 	const tooltip = d3.selectAll("." + tooltipClass).style("display", "none")
 	generateElements([["table", 1]], "table", tooltip, "table")
 	const table = tooltip.selectAll(".table")
@@ -551,12 +596,7 @@ export function highlightVertBar({
 	tooltipClass = "tooltip",
 	translate = 0,
 }: highlightBarType) {
-	generateElements(
-		[["tooltip", 1]],
-		tooltipClass,
-		d3.selectAll(".vis"),
-		"div"
-	)
+	generateTooltip([["tooltip", 1]], tooltipClass, d3.selectAll(".vis"), "div")
 	const tooltip = d3.selectAll("." + tooltipClass).style("display", "none")
 	generateElements([["table", 1]], "table", tooltip, "table")
 	const table = tooltip.selectAll(".table")
@@ -613,7 +653,7 @@ export function showLegend(
 
 	let nt = -15
 	leg.selectAll(".legendText")
-		.attr("id", "legendText")
+		.attr("class", "legendText text-sm")
 		.attr("transform", () => {
 			nt += 15
 			return `translate(${20},${nt})`
@@ -662,7 +702,7 @@ export function showLegendDot(
 		.style("stroke", (d: any) => d[1])
 
 	leg.selectAll(".legendDotText")
-		.attr("id", "legendText")
+		.attr("class", "legendText text-sm")
 		.attr("transform", () => {
 			nt += 15
 			return `translate(${20},${nt})`

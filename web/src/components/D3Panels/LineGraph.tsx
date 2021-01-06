@@ -103,9 +103,11 @@ const LineGraph: React.FC<SectionProps> = ({
 		key/x value if lines are displayed simultaneously. */
 		function singleLine(color: string, iter: number) {
 			const data_obj: Record<number, number> = {}
-
+			//Add comment
 			data_obj[1] = 0 * ((index + 1) / 3)
 			data_obj[4] = -25 * ((index + 1) / 3)
+			data_obj[6] = 0
+
 			data_obj[7] = -10 * ((index + 1) / 3)
 
 			const tooltipTable: Record<string, Record<string, string>> = {}

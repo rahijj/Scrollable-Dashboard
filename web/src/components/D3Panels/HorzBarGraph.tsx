@@ -67,7 +67,7 @@ const HorzBarGraph: React.FC<SectionProps> = ({
 			plotTitle = "Scroll 2"
 		}
 		passedData = Object.entries(data_obj).sort(order_by_ordering)
-		helper.generateElements(passedData, "BarGraph", g)
+		helper.generateHorzBars(passedData, "BarGraph", g)
 		g.selectAll(".BarGraph")
 			.attr("height", bandScale.bandwidth())
 			.attr("y", (d: any) => bandScale(d[0]))

@@ -17,10 +17,18 @@ module.exports = {
 						display: "none",
 					},
 				},
+				float: {
+					"0%": { transform: "translateY(6px)" },
+
+					"100%": {
+						transform: "translateY(1px)",
+					},
+				},
 			},
 			animation: {
 				disappear: "disappear 2.3s ease-out",
 				spinner: "spinner 1.5s linear infinite",
+				float: "float 1s ease-in-out infinite alternate",
 			},
 		},
 		screens: {

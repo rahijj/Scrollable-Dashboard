@@ -63,6 +63,9 @@ code {
 	.hover\:text-blue-bright:hover {
 		color: var(--bright-blue);
 	}
+	.text-cerp-navy {
+		color: var(--navy);
+	}
 	.bg-navy {
 		background-color: var(--navy);
 	}

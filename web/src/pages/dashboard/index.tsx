@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from "react"
 // import { getRawData } from 'actions'
 import LineGraph from "components/D3Panels/LineGraph"
+import LineGraphNew from "components/D3Panels/LineGraphNew"
 import scroller from "pages/dashboard/scroller"
-import "./style.css"
 import HorzBarGraph from "components/D3Panels/HorzBarGraph"
 import ColorSection from "components/D3Panels/ColorSection"
 import Header from "components/Header/Header"
@@ -27,7 +27,7 @@ const Dashboard: React.FunctionComponent<P> = (props) => {
 	const [visibleInd, setVisibleInd] = useState(-1)
 	/*The Index of cardInd specifies the section, and the value specifies the card number
 	 active for that section.*/
-	const [cardIndex, setCardIndex]: [number[], Function] = useState([])
+	let cardIndex: number[] = []
 
 	useEffect(() => {
 		window.onscroll = () => setY(window.pageYOffset)
@@ -57,18 +57,11 @@ const Dashboard: React.FunctionComponent<P> = (props) => {
 			d3_main.getElementsByClassName("section")
 		)
 		setVisibleInd(index)
-
-		const graphic_el = document.getElementsByClassName("graphic")
-		const len = graphic_el.length
-		for (let i = 0; i < len; i++) {
-			const temp = cardIndex
-			temp[i] = scroller(
-				graphic_el[i],
-				graphic_el[i].getElementsByClassName("card")
-			)
-			setCardIndex(temp)
-		}
 	})
+
+	cardIndex = Array.from(
+		document.getElementsByClassName("graphic")
+	).map((el) => scroller(el, el.getElementsByClassName("card")))
 
 	const header_height = getHeaderHeight()
 	const container_height = height - header_height
@@ -78,7 +71,7 @@ const Dashboard: React.FunctionComponent<P> = (props) => {
 		container_width = 0.95 * width
 	}
 
-	const section_components = [LineGraph, ColorSection, HorzBarGraph]
+	const section_components = [LineGraphNew, ColorSection, HorzBarGraph]
 
 	return (
 		<div className="main bg-gray-50 w-full flex flex-col">
