@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react"
+import React, { useEffect } from "react"
 import * as d3 from "d3"
 import * as helper from "./helperFunctions"
 import { max, min } from "d3"
@@ -11,149 +11,181 @@ const LineGraph: React.FC<SectionProps> = ({
 	isVisible,
 	headHeight,
 }) => {
-	// These are margins are set to make space for Plot Labels.
-	const margin = { top: 60, right: 20, bottom: 60, left: 45 }
-	const innerWidth = width - margin.left - margin.right
-	const innerHeight = height - margin.top - margin.bottom
-
 	function Line(index: number) {
-		let plotTitle = ""
-		let legend: Record<string, string> = {}
-		let linearScale: any
-		let bandScale: any
-
-		const navy = "#344a62"
-		const grey = "grey"
-		const orange = "orange"
-		const Colors: string[] = [navy, orange, grey]
+		// These are margins are set to make space for Plot Labels.
+		const margin = { top: 60, right: 20, bottom: 60, left: 45 }
 
 		const yLabel = "yLabel"
 		const xLabel = "xLabel"
-		const g = d3.select(".LineSVG")
-		const gNodes = g.select(".nodes")
-		const gLinks = g.select(".links")
+		let plotTitle = ""
+		const navy = "#344a62"
 
-		// const passedList: [string, number][][] = []
-		const passedList: [string, Record<string, number>][][] = []
-		const data_obj: Record<string, Record<string, number>> = {}
+		plotTitle = "Scroll 1"
+		if (index === 1) {
+			plotTitle = "Scroll 2"
+		} else if (index == 2) {
+			plotTitle = "Scroll 3"
+		}
 
 		//Format for input data object is "{Month (x axis value) : {Value : Y axis value, ...... and other
 		//KEY VALUE pairs that need to be shown in the tooltip on hover }}
-		data_obj[1] = {
-			Value: 0 * ((index + 1) / 3),
-			Mean: -1,
-			"25 %": -1,
-			"50 %": -1,
-			"75 %": -1,
-			Count: -1,
-		}
-		data_obj[4] = {
-			Value: -25 * ((index + 1) / 3),
-			Mean: -1,
-			"25 %": -1,
-			"50 %": -1,
-			"75 %": -1,
-			Count: -1,
-		}
-		data_obj[6] = {
-			Value: 0,
-			Mean: -1,
-			"25 %": -1,
-			"50 %": -1,
-			"75 %": -1,
-			Count: -1,
-		}
-		data_obj[9] = {
-			Value: -30 * ((index + 1) / 3),
-			Mean: -1,
-			"25 %": -1,
-			"50 %": -1,
-			"75 %": -1,
-			Count: -1,
+		const data_obj = {
+			1: {
+				Value: 0 * ((index + 1) / 3),
+				Mean: -1,
+				"25 %": -1,
+				"50 %": -1,
+				"75 %": -1,
+				Count: -1,
+			},
+			4: {
+				Value: -25 * ((index + 1) / 3),
+				Mean: -1,
+				"25 %": -1,
+				"50 %": -1,
+				"75 %": -1,
+				Count: -1,
+			},
+			6: {
+				Value: 0,
+				Mean: -1,
+				"25 %": -1,
+				"50 %": -1,
+				"75 %": -1,
+				Count: -1,
+			},
+			9: {
+				Value: -30 * ((index + 1) / 3),
+				Mean: -1,
+				"25 %": -1,
+				"50 %": -1,
+				"75 %": -1,
+				Count: -1,
+			},
 		}
 
-		if (index <= 2) {
-			plotTitle = "Scroll 1"
-			if (index === 1) {
-				plotTitle = "Scroll 2"
-			} else if (index == 2) {
-				plotTitle = "Scroll 3"
-			}
-		}
-		singleLine(navy)
+		const svg = d3.select(".LineSVG")
+
+		create_line_graph({
+			data_obj: data_obj,
+			width: width,
+			height: height,
+			xLabel: xLabel,
+			yLabel: yLabel,
+			plotTitle: plotTitle,
+			LineColor: navy,
+			svg: svg,
+			margin: margin,
+		})
+	}
+
+	interface CLG {
+		svg: d3.Selection<d3.BaseType, unknown, HTMLElement, any>
+		data_obj: Record<string, Record<string, number>>
+		width: number
+		height: number
+		xLabel?: string
+		yLabel?: string
+		plotTitle?: string
+		LineColor?: string
+		margin?: { top: number; right: number; bottom: number; left: number }
+	}
+	function create_line_graph({
+		svg,
+		data_obj,
+		xLabel = "X Label",
+		yLabel = "Y Label",
+		plotTitle = "Plot Title",
+		LineColor = "orange",
+		margin = { top: 60, right: 20, bottom: 60, left: 45 },
+		width,
+		height,
+	}: CLG) {
+		const innerWidth = width - margin.left - margin.right
+		const innerHeight = height - margin.top - margin.bottom
+		helper.createGrid(svg, innerHeight)
+		helper.createAxis(svg, innerHeight)
+		/* Initialise elements in this order to avoid overlaps */
+		helper.generateElements([["legend", 1]], "legend", svg, "g")
+		helper.generateElements([["links", 1]], "links", svg, "g")
+		helper.generateElements([["nodes", 1]], "nodes", svg, "g")
+
+		const gNodes = svg.select(".nodes")
+		const gLinks = svg.select(".links")
+
+		let legend: Record<string, string> = {}
+		const passedList: [string, Record<string, number>][][] = []
 
 		/* This allows lonnger plot titles to split into two lines for the mobile version */
 		if (window.matchMedia("(max-width: 767px)").matches) {
-			helper.plotTitle(g, innerWidth, plotTitle, true)
+			helper.plotTitle(svg, innerWidth, plotTitle, true)
 		} else {
-			helper.plotTitle(g, innerWidth, plotTitle)
+			helper.plotTitle(svg, innerWidth, plotTitle)
 		}
 
-		/* "singleLine" creats one line at a time. The arg color specifies the color of the line and legend. */
-		function singleLine(color: string) {
-			const passedData = Object.entries(data_obj)
-			passedList.push(passedData)
+		const passedData = Object.entries(data_obj)
+		passedList.push(passedData)
 
-			/* *************************SET AXIS AND GRID******************************************** */
-			linearScale = d3
-				.scaleLinear()
-				.domain([
-					Math.min(
-						-45,
-						1.3 * Number(min(passedData.map((e) => e[1]["Value"])))
-					),
-					Math.max(
-						15,
-						1.3 * Number(max(passedData.map((e) => e[1]["Value"])))
-					),
-				])
-				.range([innerHeight, 0])
-			bandScale = d3
-				.scaleTime()
-				//@ts-ignore
-				.domain([new Date(2020, 0, 1), new Date(2020, 10, 31)])
-				.range([0, innerWidth])
+		/* *************************SET AXIS AND GRID******************************************** */
+		const linearScale = d3
+			.scaleLinear()
+			.domain([
+				Math.min(
+					-45,
+					1.3 * Number(min(passedData.map((e) => e[1].Value)))
+				),
+				Math.max(
+					15,
+					1.3 * Number(max(passedData.map((e) => e[1].Value)))
+				),
+			])
+			.range([innerHeight, 0])
+		const bandScale = d3
+			.scaleTime()
+			.domain([new Date(2020, 0, 1), new Date(2020, 10, 31)])
+			.range([0, innerWidth])
 
-			const xAxis = d3
-				.axisBottom(bandScale)
-				.tickValues([
-					new Date(2020, 0, 1),
-					new Date(2020, 1, 1),
-					new Date(2020, 4, 1),
-					new Date(2020, 7, 1),
-					new Date(2020, 9, 1),
-					new Date(2020, 11, 1),
-				])
-				//@ts-ignore
-				.tickFormat(d3.timeFormat("%b"))
+		const xAxis = d3
+			.axisBottom(bandScale)
+			.tickValues([
+				new Date(2020, 0, 1),
+				new Date(2020, 1, 1),
+				new Date(2020, 4, 1),
+				new Date(2020, 7, 1),
+				new Date(2020, 9, 1),
+				new Date(2020, 11, 1),
+			])
+			//@ts-ignore
+			.tickFormat(d3.timeFormat("%b"))
 
-			const tick: any = ""
+		const tick = ""
 
-			helper.showXAxis(xAxis, g, innerHeight, innerWidth, xLabel)
-			helper.showXGrid(xAxis.tickSize(-innerHeight).tickFormat(tick), g)
+		helper.showXAxis(xAxis, svg, innerHeight, innerWidth, xLabel)
+		//@ts-ignore
+		helper.showXGrid(xAxis.tickSize(-innerHeight).tickFormat(tick), svg)
 
-			const yAxis = d3.axisLeft(linearScale)
-			helper.showYAxis(yAxis, g, innerHeight, innerWidth, yLabel, margin)
-			helper.showYGrid(yAxis.tickSize(-innerWidth).tickFormat(tick), g)
+		const yAxis = d3.axisLeft(linearScale)
+		helper.showYAxis(yAxis, svg, innerHeight, innerWidth, yLabel, margin)
+		//@ts-ignore
+		helper.showYGrid(yAxis.tickSize(-innerWidth).tickFormat(tick), svg)
 
-			g.select(".yGrid")
-				.selectAll("g.tick")
-				.filter((d) => d == 0)
-				.select("line")
-				.style("stroke-width", 2)
-				.style("stroke", "red")
+		svg.select(".yGrid")
+			.selectAll("g.tick")
+			.filter((d) => d == 0)
+			.select("line")
+			.style("stroke-width", 2)
+			.style("stroke", "red")
 
-			legend = {
-				Legend: color,
-			}
-			helper.showLegend(legend, g)
-			g.selectAll(".legend").attr(
-				"transform",
-				`translate(${
-					bandScale(new Date(2020, 11, 1)) - 80
-				},${linearScale(linearScale.domain()[0] + 13)})`
-			)
+		legend = {
+			Legend: LineColor,
 		}
+		helper.showLegend(legend, svg)
+		svg.selectAll(".legend").attr(
+			"transform",
+			`translate(${bandScale(new Date(2020, 11, 1)) - 80},${linearScale(
+				linearScale.domain()[0] + 13
+			)})`
+		)
 
 		/* ********************************************CREATE LINE*********************************** */
 		const line: any = d3
@@ -162,7 +194,7 @@ const LineGraph: React.FC<SectionProps> = ({
 				return bandScale(new Date(2020, d[0], 1))
 			})
 			//@ts-ignore
-			.y((d) => linearScale(d[1]["Value"]))
+			.y((d) => linearScale(d[1].Value))
 
 		const line_class_name = "LineNorm"
 		const strokeWidth = "3"
@@ -177,7 +209,7 @@ const LineGraph: React.FC<SectionProps> = ({
 						.attr("id", line_class_name)
 						.attr("class", line_class_name)
 						.attr("fill", "none")
-						.style("stroke", (d, i) => Colors[i])
+						.style("stroke", LineColor)
 						.style("stroke-width", "0")
 						.call((s) =>
 							s
@@ -227,7 +259,7 @@ const LineGraph: React.FC<SectionProps> = ({
 						.attr("cx", (d) =>
 							bandScale(new Date(2020, Number(d[0]), 1))
 						)
-						.attr("cy", (d) => linearScale(d[1]["Value"]))
+						.attr("cy", (d) => linearScale(d[1].Value))
 						.attr("r", 5),
 				(update) =>
 					update.call((s) =>
@@ -236,7 +268,7 @@ const LineGraph: React.FC<SectionProps> = ({
 							.attr("cx", (d) =>
 								bandScale(new Date(2020, Number(d[0]), 1))
 							)
-							.attr("cy", (d) => linearScale(d[1]["Value"]))
+							.attr("cy", (d) => linearScale(d[1].Value))
 							.attr("opacity", 1)
 							.attr("r", 5)
 					),
@@ -266,18 +298,13 @@ const LineGraph: React.FC<SectionProps> = ({
 			.on(
 				"mouseover",
 				//@ts-ignore
-				function (
-					this: any,
-					event,
-					d: [string, Record<string, number>]
-				) {
+				function (this, event, d: [string, Record<string, number>]) {
 					d3.select(this).attr("r", 12)
 					const rowList = Object.entries(d[1])
 					//@ts-ignore
 					helper.generateElements(rowList, "tr", tableBody, "tr")
 					const rows = d3.selectAll(".tr")
-					const cells = rows
-						.selectAll("td")
+					rows.selectAll("td")
 						.data((d: any) => d)
 						.join(
 							(enter) =>
@@ -297,28 +324,19 @@ const LineGraph: React.FC<SectionProps> = ({
 								20 +
 								"px"
 						)
-						.style("top", linearScale(d[1]["Value"]) + 85 + "px")
+						.style("top", linearScale(d[1].Value) + 85 + "px")
 						.style("display", "block")
 				}
 			)
-			.on("mouseout", function (this: any) {
+			.on("mouseout", function (this) {
 				tooltip.style("display", "none")
 				d3.select(this).attr("r", 5)
 			})
 
-		g.attr("transform", `translate(${margin.left},${margin.top})`)
+		svg.attr("transform", `translate(${margin.left},${margin.top})`)
 	}
 
 	const scrollVis = (index: number) => {
-		const g = d3.select(".LineSVG")
-
-		helper.createGrid(g, innerHeight)
-		helper.createAxis(g, innerHeight)
-		/* Initialise elements in this order to avoid overlaps */
-		helper.generateElements([["legend", 1]], "legend", g, "g")
-		helper.generateElements([["links", 1]], "links", g, "g")
-		helper.generateElements([["nodes", 1]], "nodes", g, "g")
-
 		Line(index)
 	}
 
