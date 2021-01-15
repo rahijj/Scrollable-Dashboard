@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from "react"
 // import { getRawData } from 'actions'
-import LineGraph from "components/D3Panels/LineGraph"
 import LineGraphNew from "components/D3Panels/LineGraphNew"
 import scroller from "pages/dashboard/scroller"
 import HorzBarGraph from "components/D3Panels/HorzBarGraph"

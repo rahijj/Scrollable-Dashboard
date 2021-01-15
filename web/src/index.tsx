@@ -19,18 +19,18 @@ const host = get_host()
 
 const initial_state = loadDBSync()
 
-const syncr = new Syncr(`ws://${host}/ws`)
+// const syncr = new Syncr(`ws://${host}/ws`)
 
 // @ts-ignore
-syncr.on("connect", () => store.dispatch(connected()))
-syncr.on("disconnect", () => store.dispatch(disconnected()))
-syncr.on("message", (msg: AnyAction) => store.dispatch(msg))
+// syncr.on("connect", () => store.dispatch(connected()))
+// syncr.on("disconnect", () => store.dispatch(disconnected()))
+// syncr.on("message", (msg: AnyAction) => store.dispatch(msg))
 
 const store: Store<RootReducerState> = createStore(
 	reducer,
 	initial_state,
 	applyMiddleware(
-		thunkMiddleware.withExtraArgument(syncr) as ThunkMiddleware<
+		thunkMiddleware.withExtraArgument(3) as ThunkMiddleware<
 			RootReducerState,
 			AnyAction,
 			Syncr

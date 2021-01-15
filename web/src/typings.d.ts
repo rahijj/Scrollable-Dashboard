@@ -9,6 +9,15 @@ type SectionProps = {
 	headHeight: number
 }
 
+interface DataObjType {
+	X: Number | Date
+	Y: Number | Date
+	Mean?: Number
+	"25 %"?: Number
+	"50 %"?: Number
+	"75 %"?: Number
+	Count?: Number
+}
 interface RootReducerState {
 	sync_state?: SyncState
 	auth: {
