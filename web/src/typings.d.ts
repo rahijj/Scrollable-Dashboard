@@ -10,8 +10,8 @@ type SectionProps = {
 }
 
 interface DataObjType {
-	X: Number | Date
-	Y: Number | Date
+	X: string | number | Date
+	Y: string | number | Date
 	Mean?: Number
 	"25 %"?: Number
 	"50 %"?: Number

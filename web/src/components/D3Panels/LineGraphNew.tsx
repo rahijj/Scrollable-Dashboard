@@ -138,17 +138,17 @@ const LineGraph: React.FC<SectionProps> = ({
 		})
 	}
 
-	const pan = d3.select("#LineGraph")
+	const section = d3.select("#LineGraph")
 
 	useEffect(() => {
 		if (isVisible) {
-			pan.selectAll(".card").style("opacity", (d, i) =>
-				i === cardInd ? 1 : 0.3
-			)
+			section
+				.selectAll(".card")
+				.style("opacity", (d, i) => (i === cardInd ? 1 : 0.3))
 			d3.select(".LineSVG").style("opacity", 1)
 			Line(cardInd)
 		} else {
-			pan.selectAll(".card").style("opacity", 0.4)
+			section.selectAll(".card").style("opacity", 0.4)
 
 			d3.select(".LineSVG").style("opacity", 0.4)
 		}

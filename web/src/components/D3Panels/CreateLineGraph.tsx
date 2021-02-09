@@ -9,9 +9,12 @@ interface CLG {
 	x_scale:
 		| d3.ScaleLinear<number, number, never>
 		| d3.ScaleTime<number, number, never>
+	// | d3.ScaleBand<string>
 	y_scale:
 		| d3.ScaleLinear<number, number, never>
 		| d3.ScaleTime<number, number, never>
+	// | d3.ScaleBand<string>
+
 	legend?: Record<string, string>
 	xLabel?: string
 	yLabel?: string
@@ -35,26 +38,6 @@ export function create_line_graph({
 }: CLG) {
 	const innerWidth = width - margin.left - margin.right
 	const innerHeight = height - margin.top - margin.bottom
-	helper.createGrid(svg, innerHeight)
-	helper.createAxis(svg, innerHeight)
-	/* Initialise elements in this order to avoid overlaps */
-	helper.generateElements([["legend", 1]], "legend", svg, "g")
-	helper.generateElements([["links", 1]], "links", svg, "g")
-	helper.generateElements([["nodes", 1]], "nodes", svg, "g")
-
-	const gNodes = svg.select(".nodes")
-	const gLinks = svg.select(".links")
-
-	/* This allows longer plot titles to split into two lines for the mobile version */
-	if (window.matchMedia("(max-width: 767px)").matches) {
-		helper.plotTitle(svg, innerWidth, plotTitle, true)
-	} else {
-		helper.plotTitle(svg, innerWidth, plotTitle)
-	}
-
-	const passedList = Object.values(data_obj)
-
-	/* *************************SET AXIS AND GRID******************************************** */
 
 	const xAxis = d3.axisBottom(x_scale)
 	// .tickValues([
@@ -66,18 +49,29 @@ export function create_line_graph({
 	// 	new Date(2020, 11, 1),
 	// ])
 	// //@ts-ignore
-	// .tickFormat(d3.timeFormat("%b"))
-
-	const tick = ""
-
-	helper.showXAxis(xAxis, svg, innerHeight, innerWidth, xLabel)
-	//@ts-ignore
-	helper.showXGrid(xAxis.tickSize(-innerHeight).tickFormat(tick), svg)
+	// .tickFormat(helper.multiFormat);
 
 	const yAxis = d3.axisLeft(y_scale)
-	helper.showYAxis(yAxis, svg, innerHeight, innerWidth, yLabel, margin)
-	//@ts-ignore
-	helper.showYGrid(yAxis.tickSize(-innerWidth).tickFormat(tick), svg)
+
+	helper.createAxis({
+		selection: svg,
+		xAxis: xAxis,
+		yAxis: yAxis,
+		innerHeight: innerHeight,
+		innerWidth: innerWidth,
+		xLabel: xLabel,
+		yLabel: yLabel,
+		leftMargin: margin.left,
+	})
+
+	helper.createGrid({
+		selection: svg,
+		xAxis: xAxis.tickSize(-innerHeight),
+		yAxis: yAxis.tickSize(-innerWidth),
+		innerHeight,
+	})
+
+	helper.plotTitle({ selection: svg, innerWidth, title: plotTitle })
 
 	svg.select(".yGrid")
 		.selectAll("g.tick")
@@ -86,7 +80,8 @@ export function create_line_graph({
 		.style("stroke-width", 2)
 		.style("stroke", "red")
 
-	helper.showLegend(legend, svg)
+	helper.showLegend({ ItemsColours: legend, selection: svg })
+
 	svg.selectAll(".legend").attr(
 		"transform",
 		`translate(${x_scale(x_scale.domain()[1]) / 1.1},${
@@ -94,149 +89,27 @@ export function create_line_graph({
 		})`
 	)
 
-	/* ********************************************CREATE LINE*********************************** */
-	const line = d3
-		.line<DataObjType>()
-		.x((d) => {
-			return x_scale(d.X)
-		})
-		.y((d) => y_scale(d.Y))
+	helper.generateLineGraph({
+		selection: svg,
+		x_scale: x_scale,
+		y_scale: y_scale,
+		passedList: data_obj,
+		Colors: LineColor,
+	})
 
-	const line_class_name = "LineNorm"
-	const strokeWidth = "3"
-	const t = gLinks.transition().delay(750).duration(500)
-	gLinks
-		.selectAll("." + line_class_name)
-		.data(passedList)
-		.join(
-			(enter) =>
-				enter
-					.append("path")
-					.attr("id", line_class_name)
-					.attr("class", line_class_name)
-					.attr("fill", "none")
-					.style("stroke", (d, i) => {
-						if (i > LineColor.length - 1) {
-							return "orange"
-						}
-						return LineColor[i]
-					})
-					.style("stroke-width", "0")
-					.call((s) =>
-						s
-							.transition(t)
-							.style("stroke-width", strokeWidth)
-							.attr("d", line)
-					),
-			(update) =>
-				update.call((s) =>
-					s
-						.transition(t)
-						.style("stroke-width", strokeWidth)
-						.attr("d", line)
-						.style("stroke", (d, i) => {
-							if (i > LineColor.length - 1) {
-								return "orange"
-							}
-							return LineColor[i]
-						})
-				),
-			(exit) =>
-				exit
-					.transition()
-					.duration(500)
-					.style("stroke-width", "0")
-					.remove()
-		)
-
-	/* ****************************************** CREATE DATA POINT CIRCLES********************************/
 	const combinedList: DataObjType[] = []
-	passedList.forEach((e) =>
-		//@ts-ignore
-		e.forEach((i) => combinedList.push(i))
-	)
+	data_obj.forEach((e) => e.forEach((i) => combinedList.push(i)))
 
-	const point_class = "Point"
-	const tooltipClass = "tooltip"
-	const t2 = gNodes.transition().duration(1100)
+	helper.highlightLine({
+		data: combinedList,
+		selection: svg,
+		x_scale: x_scale,
+		y_scale: y_scale,
+	})
 
-	gNodes
-		.selectAll("." + point_class)
-		.data(combinedList)
-		.join(
-			(enter) =>
-				enter
-					.append("circle")
-					.attr(
-						"class",
-						point_class +
-							" fill-current text-gray-500 hover:text-yellow-500"
-					)
-					.attr("opacity", 1)
-					.attr("cx", (d) => x_scale(d.X))
-					.attr("cy", (d) => y_scale(d.Y))
-					.attr("r", 5),
-			(update) =>
-				update.call((s) =>
-					s
-						.transition(t2)
-						.attr("cx", (d) => x_scale(d.X))
-						.attr("cy", (d) => y_scale(d.Y))
-						.attr("opacity", 1)
-						.attr("r", 5)
-				),
-			(exit) => exit.transition().duration(200).attr("r", 0).remove()
-		)
-
-	/* ***********************CREATE TOOLTIP TO SHOW ON MOUSEOVER ON DATA POINTS************************ */
-	helper.generateTooltip(
-		[["tooltip", 1]],
-		tooltipClass,
-		d3.selectAll(".vis"),
-		"div"
-	)
-
-	const tooltip = d3.selectAll("." + tooltipClass).style("display", "none")
-	helper.generateElements([["table", 1]], "table", tooltip, "table")
-
-	const table = tooltip.selectAll(".table")
-	//@ts-ignore
-	helper.generateElements([["tbody", 1]], "tbody", table, "tbody")
-	const tableBody = table.selectAll(".tbody")
-
-	gNodes
-		.selectAll("." + point_class)
-		.on(
-			"mouseover",
-			//@ts-ignore
-			function (this, event, d: DataObjType) {
-				d3.select(this).attr("r", 12)
-				const rowList = Object.entries(d)
-				//@ts-ignore
-				helper.generateElements(rowList, "tr", tableBody, "tr")
-				const rows = d3.selectAll(".tr")
-				rows.selectAll("td")
-					.data((d: any) => d)
-					.join(
-						(enter) =>
-							enter
-								.append("td")
-								.attr("class", "td")
-								.style("color", "white")
-								.text((d: any) => d),
-						(update) => update.text((d: any) => d),
-						(exit) => exit.remove()
-					)
-				tooltip
-					.style("left", () => x_scale(d.X) - 20 + "px")
-					.style("top", y_scale(d.Y) + 85 + "px")
-					.style("display", "block")
-			}
-		)
-		.on("mouseout", function (this) {
-			tooltip.style("display", "none")
-			d3.select(this).attr("r", 5)
-		})
+	// Sort svg elements with 'ordered' className according to bound value.
+	// This is done so the svg elements on the screen do not overlap incorrectly.
+	svg.selectAll(".ordered").sort((a: any, b: any) => a - b)
 
 	svg.attr("transform", `translate(${margin.left},${margin.top})`)
 }
