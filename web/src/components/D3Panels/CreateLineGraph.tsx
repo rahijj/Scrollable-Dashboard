@@ -63,11 +63,11 @@ export function create_line_graph({
 		yLabel: yLabel,
 		leftMargin: margin.left,
 	})
-
+	const tick: any = ""
 	helper.createGrid({
 		selection: svg,
-		xAxis: xAxis.tickSize(-innerHeight),
-		yAxis: yAxis.tickSize(-innerWidth),
+		xAxis: xAxis.tickSize(-innerHeight).tickFormat(tick),
+		yAxis: yAxis.tickSize(-innerWidth).tickFormat(tick),
 		innerHeight,
 	})
 

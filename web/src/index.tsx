@@ -13,7 +13,7 @@ import { loadDBSync, loadDBAsync, saveDB } from "utils/storage"
 import debounce from "utils/debounce"
 import { get_host } from "config"
 
-import { connected, disconnected, LoadAsyncAction } from "actions/core"
+// import { connected, disconnected, LoadAsyncAction } from "actions/core"
 
 const host = get_host()
 
@@ -38,11 +38,11 @@ const store: Store<RootReducerState> = createStore(
 	)
 )
 
-loadDBAsync().then((val) => {
-	if (val) {
-		store.dispatch(LoadAsyncAction(val))
-	}
-})
+// loadDBAsync().then((val) => {
+// 	if (val) {
+// 		store.dispatch(LoadAsyncAction(val))
+// 	}
+// })
 
 const saveBounce = debounce(() => {
 	const state = store.getState()
